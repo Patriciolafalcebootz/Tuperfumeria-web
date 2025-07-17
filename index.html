@@ -52,7 +52,7 @@
     }
     .promo .promo-x {
       font-size: 2.3rem;
-      color: #fff;
+      color: #444;
       vertical-align: middle;
       margin: 0 0.18em;
       font-weight: 800;
@@ -118,8 +118,9 @@
   <span class="promo-numbers">4</span>
   <span class="promo-x">x</span>
   <span class="promo-numbers">3</span>
-  <span class="promo-text">en decants de 5ml o 10ml</span>
+  <span class="promo-text">Decants de 5ml o 10ml</span>
   <span class="promo-small">Llevá 4 y pagá sólo 3. Consultá por disponibilidad y precios.</span>
+  <span class="promo-small">*Los precios de los descants pueden varian segun el precio del perfume .</span>
 </div>
 
 <header>
@@ -183,10 +184,10 @@
   ];
 
   const decants = [
-    { name: "Al Haramain Amber Oud Gold - Decant 10ml", image: "https://fraguru.com/mdimg/perfume/375x500.37504.jpg", waText: "Decant 10ml Amber Oud Gold" },
-    { name: "Dior Sauvage EDP - Decant 5ml", image: "https://fraguru.com/mdimg/perfume/375x500.41998.jpg", waText: "Decant 5ml Dior Sauvage EDP" },
-    { name: "Jean Paul Gaultier Le Male Elixir - Decant 10ml", image: "https://fraguru.com/mdimg/perfume/375x500.80544.jpg", waText: "Decant 10ml JPG Le Male Elixir" },
-    { name: "Lattafa Khamrah - Decant 5ml", image: "https://fraguru.com/mdimg/perfume/375x500.79003.jpg", waText: "Decant 5ml Lattafa Khamrah" }
+    { name: "Al Haramain Amber Oud Gold - Decant 10ml", image: "https://puntotienda.com.py/wp-content/uploads/2023/02/s-l1600.jpg", waText: "Decant 10ml o 5ml Amber Oud Gold" },
+    { name: "Dior Sauvage EDP - Decant 5ml", image: "https://puntotienda.com.py/wp-content/uploads/2023/02/s-l1600.jpg", waText: "Decant 10ml o 5ml Dior Sauvage EDP" },
+    { name: "Jean Paul Gaultier Le Male Elixir - Decant 10ml", image: "https://puntotienda.com.py/wp-content/uploads/2023/02/s-l1600.jpg", waText: "Decant 10ml o 5ml Le Male Elixir" },
+    { name: "Lattafa Khamrah - Decant 5ml", image: "https://puntotienda.com.py/wp-content/uploads/2023/02/s-l1600.jpg", waText: "Decant 10ml o 5ml Lattafa Khamrah" }
   ];
 
   function renderProducts(category, containerId) {
@@ -202,19 +203,6 @@
       </div>
     `).join('');
   }
-
-  function renderDecants(containerId) {
-    const section = document.getElementById(containerId);
-    section.innerHTML = decants.map(decant => `
-      <div class="product">
-        <img src="${decant.image}" alt="${decant.waText}">
-        <h3>${decant.name}</h3>
-        <div class="precio">Precio: $------</div>
-        <button onclick="window.open('https://wa.me/541138722792?text=Hola! Estoy interesado en el ${encodeURIComponent(decant.waText)}.')">Consultar</button>
-      </div>
-    `).join('');
-  }
-
   renderProducts('arabes', 'arabes-products');
   renderProducts('disenador', 'disenador-products');
   renderDecants('decants-products');
