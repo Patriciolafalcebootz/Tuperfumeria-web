@@ -203,6 +203,17 @@
       </div>
     `).join('');
   }
+  function renderDecants(containerId) {
+    const section = document.getElementById(containerId);
+    section.innerHTML = decants.map(decant => `
+      <div class="product">
+        <img src="${decant.image}" alt="${decant.waText}">
+        <h3>${decant.name}</h3>
+        <div class="precio">Precio: $------</div>
+        <button onclick="window.open('https://wa.me/541138722792?text=Hola! Estoy interesado en el ${encodeURIComponent(decant.waText)}.')">Consultar</button>
+      </div>
+    `).join('');
+  }
   renderProducts('arabes', 'arabes-products');
   renderProducts('disenador', 'disenador-products');
   renderDecants('decants-products');
