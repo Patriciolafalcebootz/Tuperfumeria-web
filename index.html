@@ -6,20 +6,22 @@
   <title>TuPerfumería</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #fafafa; color: #333; }
-    header { background: #111; color: #fff; text-align: center; padding: 3rem 1rem 2rem 1rem; 
-                   font-size: 2.5rem; Letter-spacing: 2px;
-                   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                   border-bottom: 4px solid #ebc934;}
+    header {
+      background: #111;
+      color: #fff;
+      text-align: center;
+      padding: 3rem 1rem 2rem 1rem;
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-bottom: 4px solid #ebc934;
+    }
     nav a { margin: 0 1rem; color: #fff; text-decoration: none; }
-    footer {  background: #111; 
-     color: #fff; 
-     text-align: center; 
-     padding: 1rem; 
     .promo {
       background: #fff;
       color: #111;
-      padding: 1.4rem 1rem 1.3rem 1rem;
-      border-radius: 0 0 10px;
+      padding: 1.8rem 1rem 1.5rem 1rem;
+      border-radius: 0 0 18px 18px;
       text-align: center;
       font-size: 1.25rem;
       font-weight: 500;
@@ -28,6 +30,10 @@
       letter-spacing: 0.5px;
       margin-bottom: 5px;
       position: relative;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 0;
     }
     .promo .promo-numbers {
       font-size: 2.6rem;
@@ -55,7 +61,7 @@
     .promo .promo-text {
       font-size: 1.18rem;
       font-weight: 400;
-      color: #ddd;
+      color: #444;
       display: block;
       margin-top: 0.7em;
       margin-bottom: 0.4em;
@@ -77,22 +83,47 @@
     .product { border: 1px solid #ccc; background: #fff; padding: 1rem; text-align: center; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     .product img { max-width: 100%; height: 200px; object-fit: cover; border-radius: 6px; }
     .product h3 { font-size: 1rem; margin: 0.5rem 0; }
+    .precio { font-size: 1.1rem; color: #25d366; margin: 0.6em 0 1em 0; font-weight: bold;}
     .product button { background: #25d366; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; }
+    .download-btn {
+      display: inline-block;
+      background: #25d366;
+      color: #fff;
+      font-weight: bold;
+      padding: 0.7em 1.6em;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 1.1rem;
+      margin-top: 1.2em;
+      transition: background 0.2s;
+      margin-bottom: 2em;
+    }
+    .download-btn:hover {
+      background: #128c4b;
+    }
+    footer { background: #111; color: #fff; text-align: center; padding: 1rem; }
     footer p { margin: 0.2rem 0; }
     .footer-contact { color: #25d366; }
+    @media (max-width: 600px) {
+      header { font-size: 1.4rem; padding: 2rem 0.5rem 1rem 0.5rem; }
+      .catalog-section h2 { margin-left: 1rem; }
+      .products { padding: 1rem; gap: 1rem; }
+      .promo { font-size: 1rem; padding: 1.2rem 0.5rem 1rem 0.5rem; }
+    }
   </style>
 </head>
 <body>
 
+<div class="promo">
+  <span class="promo-numbers">4</span>
+  <span class="promo-x">x</span>
+  <span class="promo-numbers">3</span>
+  <span class="promo-text">en decants de 5ml o 10ml</span>
+  <span class="promo-small">Llevá 4 y pagá sólo 3. Consultá por disponibilidad y precios.</span>
+</div>
+
 <header>
   <h1>TuPerfumería</h1>
-  <div class="promo">
-    <span class="promo-numbers">4</span>
-    <span class="promo-x">x</span>
-    <span class="promo-numbers">3</span>
-    <span class="promo-text">en decants de 5ml o 10ml</span>
-    <span class="promo-small">Llevá 4 y pagá sólo 3. Consultá por disponibilidad y precios.</span>
-  </div>
   <nav>
     <a href="#catalogo">Catálogo</a>
     <a href="#decants">Decants</a>
@@ -128,7 +159,7 @@
     <div class="products" id="decants-products"></div>
   </div>
 </section>
-
+  
 <footer id="contacto">
   <p><strong>Contacto por WhatsApp:</strong> <a href="https://wa.me/541138722792" class="footer-contact">+54 11 3872-2792</a></p>
   <p>&copy; 2025 TuPerfumería</p>
@@ -152,10 +183,10 @@
   ];
 
   const decants = [
-    { name: "Al Haramain Amber Oud Gold - Decant 10ml", image: "https://puntotienda.com.py/wp-content/uploads/2023/02/s-l1600.jpg", waText: "Decant 10ml Amber Oud Gold" },
-    { name: "Dior Sauvage EDP - Decant 5ml", image: "https://puntotienda.com.py/wp-content/uploads/2023/02/s-l1600.jpg", waText: "Decant 5ml Dior Sauvage EDP" },
-    { name: "Jean Paul Gaultier Le Male Elixir - Decant 10ml", image: "https://puntotienda.com.py/wp-content/uploads/2023/02/s-l1600.jpg", waText: "Decant 10ml JPG Le Male Elixir" },
-    { name: "Lattafa Khamrah - Decant 5ml", image: "https://puntotienda.com.py/wp-content/uploads/2023/02/s-l1600.jpg", waText: "Decant 5ml Lattafa Khamrah" }
+    { name: "Al Haramain Amber Oud Gold - Decant 10ml", image: "https://fraguru.com/mdimg/perfume/375x500.37504.jpg", waText: "Decant 10ml Amber Oud Gold" },
+    { name: "Dior Sauvage EDP - Decant 5ml", image: "https://fraguru.com/mdimg/perfume/375x500.41998.jpg", waText: "Decant 5ml Dior Sauvage EDP" },
+    { name: "Jean Paul Gaultier Le Male Elixir - Decant 10ml", image: "https://fraguru.com/mdimg/perfume/375x500.80544.jpg", waText: "Decant 10ml JPG Le Male Elixir" },
+    { name: "Lattafa Khamrah - Decant 5ml", image: "https://fraguru.com/mdimg/perfume/375x500.79003.jpg", waText: "Decant 5ml Lattafa Khamrah" }
   ];
 
   function renderProducts(category, containerId) {
@@ -166,6 +197,7 @@
       <div class="product">
         <img src="${product.image}" alt="${product.waText}">
         <h3>${product.name}</h3>
+        <div class="precio">Precio: $------</div>
         <button onclick="window.open('https://wa.me/541138722792?text=Hola! Estoy interesado en el perfume ${encodeURIComponent(product.waText)}.')">Consultar</button>
       </div>
     `).join('');
@@ -177,7 +209,8 @@
       <div class="product">
         <img src="${decant.image}" alt="${decant.waText}">
         <h3>${decant.name}</h3>
-        <button onclick="window.open('https://wa.me/541138722792?text=Hola! Chupapi quiero el famosisimo ${encodeURIComponent(decant.waText)}.')">Consultar</button>
+        <div class="precio">Precio: $------</div>
+        <button onclick="window.open('https://wa.me/541138722792?text=Hola! Estoy interesado en el ${encodeURIComponent(decant.waText)}.')">Consultar</button>
       </div>
     `).join('');
   }
@@ -189,4 +222,5 @@
 
 </body>
 </html>
+
 
