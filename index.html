@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TuPerfumería</title>
+  <!-- Fuente moderna Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #fafafa; color: #333; }
+    body { font-family: 'Inter', Arial, sans-serif; margin: 0; padding: 0; background: #fafafa; color: #333; }
     header {
       background: #111;
       color: #fff;
@@ -14,7 +16,7 @@
       font-size: 2.5rem;
       letter-spacing: 2px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      border-bottom: 4px solid #ebc934;
+      border-bottom: 4px solid #2563eb;
     }
     nav a { margin: 0 1rem; color: #fff; text-decoration: none; }
     .promo {
@@ -25,7 +27,7 @@
       text-align: center;
       font-size: 1.25rem;
       font-weight: 500;
-      border-bottom: 2px solid #25d366;
+      border-bottom: 2px solid #2563eb;
       box-shadow: 0 2px 12px rgba(0,0,0,0.13);
       letter-spacing: 0.5px;
       margin-bottom: 5px;
@@ -81,13 +83,20 @@
     .catalog-section h2 { text-align: left; margin-left: 2rem; color: #222; }
     .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; padding: 2rem; }
     .product { border: 1px solid #ccc; background: #fff; padding: 1rem; text-align: center; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .product img { max-width: 100%; height: 200px; object-fit: cover; border-radius: 6px; }
+    /* Galería para dos imágenes */
+    .product-images {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+    }
+    .product-images img { max-width: 100px; height: 100px; object-fit: cover; border-radius: 6px; border: 1px solid #eee; }
     .product h3 { font-size: 1rem; margin: 0.5rem 0; }
-    .precio { font-size: 1.1rem; color: #25d366; margin: 0.6em 0 1em 0; font-weight: bold;}
-    .product button { background: #25d366; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; }
+    .precio { font-size: 1.1rem; color: #2563eb; margin: 0.6em 0 1em 0; font-weight: bold;}
+    .product button { background: #2563eb; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; }
     .download-btn {
       display: inline-block;
-      background: #25d366;
+      background: #2563eb;
       color: #fff;
       font-weight: bold;
       padding: 0.7em 1.6em;
@@ -99,29 +108,23 @@
       margin-bottom: 2em;
     }
     .download-btn:hover {
-      background: #128c4b;
+      background: #1746a0;
     }
+    .product button:hover { background: #1746a0; }
     footer { background: #111; color: #fff; text-align: center; padding: 1rem; }
     footer p { margin: 0.2rem 0; }
-    .footer-contact { color: #25d366; }
+    .footer-contact { color: #2563eb; }
     @media (max-width: 600px) {
       header { font-size: 1.4rem; padding: 2rem 0.5rem 1rem 0.5rem; }
       .catalog-section h2 { margin-left: 1rem; }
       .products { padding: 1rem; gap: 1rem; }
       .promo { font-size: 1rem; padding: 1.2rem 0.5rem 1rem 0.5rem; }
+      .product-images { flex-direction: column; align-items: center; }
+      .product-images img { width: 100%; max-width: 170px; }
     }
   </style>
 </head>
 <body>
-
-<div class="promo">
-  <span class="promo-numbers">4</span>
-  <span class="promo-x">x</span>
-  <span class="promo-numbers">3</span>
-  <span class="promo-text">Decants de 5ml o 10ml</span>
-  <span class="promo-small">Llevá 4 y pagá sólo 3. Consultá por disponibilidad y precios.</span>
-  <span class="promo-small">*Los precios de los decants pueden variar según el precio del perfume.</span>
-</div>
 
 <header>
   <h1>TuPerfumería</h1>
@@ -138,6 +141,15 @@
 </section>
 
 <section id="catalogo">
+  <!-- Promo justo antes de Perfumes Árabes -->
+  <div class="promo">
+    <span class="promo-numbers">4</span>
+    <span class="promo-x">x</span>
+    <span class="promo-numbers">3</span>
+    <span class="promo-text">Decants de 5ml o 10ml</span>
+    <span class="promo-small">Llevá 4 y pagá sólo 3. Consultá por disponibilidad y precios.</span>
+    <span class="promo-small">*Los precios de los decants pueden variar según el precio del perfume.</span>
+  </div>
   <div class="catalog-section" id="arabes">
     <h2>Perfumes Árabes</h2>
     <div class="products" id="arabes-products"></div>
@@ -167,27 +179,27 @@
 </footer>
 
 <script>
-  // Agrega o edita el campo 'price' para cada producto y decant
+  // Agrega o edita el campo 'image2' para cada producto si deseas mostrar una segunda imagen
   const products = [
-    { name: "Al Haramain Amber Oud Gold Unisex 120ML", image: "images/Amber oud gold.jpeg", waText: "Al Haramain Amber Oud Gold Unisex 120ML", category: "arabes", price: 85000 },        
-    { name: "Armaf Club de Nuit intense man EDT 100ML", image: "images/Club de nuit intense.jpeg", waText: "Armaf Club de Nuit intense man EDT 100ML", category: "arabes", price: 48000 },
-    { name: "Armaf Odyssey Mandarin Sky EDP MAS 100ML", image: "images/Mandarin sky.jpeg", waText: "Armaf Odyssey Mandarin Sky EDP MAS 100ML", category: "arabes", price: 64000 },
-    { name: "Lattafa Asad Bourbon EDP 100ML", image: "images/Yara bourbon.jpeg", waText: "Lattafa Asad Bourbon EDP MAS 100ML", category: "arabes", price: 62000 },
-    { name: "Lattafa ASAD YARA TOUS EDP MAS 100ML", image: "images/Yara naranja.jpeg", waText: "Lattafa ASAD YARA TOUS EDP MAS 100ML", category: "arabes", price: 35000 },
-     { name: "Lattafa ASAD YARA CANDY EDP 100ML", image: "images/Yara candy.jpeg", waText: "Lattafa ASAD YARA CANDY EDP 100ML", category: "arabes", price: 35000 },
-    { name: "Lattafa Khamrah EDP unisex 100ML", image: "images/Khamrah.jpeg", waText: "Lattafa Khamrah EDP unisex 100ML", category: "arabes", price: 52000 },
-    { name: "BADEE AL OUD OUD NOBLE BLUSH EDP 100ML", image: "images/Noble blush.jpeg", waText: "BADEE AL OUD OUD NOBLE BLUSH EDP 100ML", category: "arabes", price: 40000 },
-     { name: "BADEE AL OUD FOR GLORY EDP 100ML ", image: "images/Oud for glory.jpeg", waText: "BADEE AL OUD FOR GLORY EDP 100ML ", category: "arabes", price: 48000 },
-     { name: "BADEE ALOUD AMETHYST F EDP 100ML", image: "images/Amatyst.jpeg", waText: "BADEE ALOUD AMETHYST F EDP 100ML", category: "arabes", price: 48000 },
-     { name: "ASAD ZANZIBAR EDP 100ML", image: "images/Zanzibar.jpeg", waText: "ASAD ZANZIBAR EDP 100ML", category: "arabes", price: 34000 },
-    { name: "BADEE AL OUD HONOR & GLORY EDP 100ML ", image: "images/Honor and glory.jpeg", waText: "BADEE AL OUD HONOR & GLORY EDP 100ML ", category: "arabes", price: 45000 },
-    { name: "Azzaro The Most Wanted EDP Intense [SIN STOCK]", image: "images/azzaro most wanted.jpeg", waText: "Azzaro The Most Wanted EDP Intense", category: "disenador", price: 1111111 },
-    { name: "Carolina Herrera 212 VIP Rose Elixir [SIN STOCK]", image: "images/212 vip rose.jpeg", waText: "Carolina Herrera 212 VIP Rose Elixir", category: "disenador", price: 11111 },
-    { name: "Carolina Herrera Good Girl [SIN STOCK]" , image: "images/good girl.jpeg", waText: "Carolina Herrera Good Girl", category: "disenador", price: 1111111 },
-    { name: "Dior Sauvage EDP [SIN STOCK]", image: "images/sauvage dior.jpeg", waText: "Dior Sauvage EDP", category: "disenador", price: 1111111 },
-    { name: "Jean Paul Gaultier Le Male Elixir [SIN STOCK]", image: "images/jean paul.jpeg", waText: "Jean Paul Gaultier Le Male Elixir", category: "disenador", price: 11111 },
-    { name: "Valentino Donna Born in Roma [SIN STOCK]", image: "images/valentino donna.jpeg", waText: "Valentino Donna Born in Roma", category: "disenador", price: 11111111 },
-    { name: "Versace Dylan Blue Pour Homme [SIN STOCK]", image: "images/dylan blue.jpeg", waText: "Versace Dylan Blue Pour Homme", category: "disenador", price: 111111 }
+    { name: "Al Haramain Amber Oud Gold Unisex 120ML", image: "images/Amber oud gold.jpeg", image2: "images/Amber oud gold 2.jpeg", waText: "Al Haramain Amber Oud Gold Unisex 120ML", category: "arabes", price: 85000 },        
+    { name: "Armaf Club de Nuit intense man EDT 100ML", image: "images/Club de nuit intense.jpeg", image2: "images/Club de nuit intense 2.jpeg", waText: "Armaf Club de Nuit intense man EDT 100ML", category: "arabes", price: 48000 },
+    { name: "Armaf Odyssey Mandarin Sky EDP MAS 100ML", image: "images/Mandarin sky.jpeg", image2: "", waText: "Armaf Odyssey Mandarin Sky EDP MAS 100ML", category: "arabes", price: 64000 },
+    { name: "Lattafa Asad Bourbon EDP 100ML", image: "images/Yara bourbon.jpeg", image2: "", waText: "Lattafa Asad Bourbon EDP MAS 100ML", category: "arabes", price: 62000 },
+    { name: "Lattafa ASAD YARA TOUS EDP MAS 100ML", image: "images/Yara naranja.jpeg", image2: "", waText: "Lattafa ASAD YARA TOUS EDP MAS 100ML", category: "arabes", price: 35000 },
+    { name: "Lattafa ASAD YARA CANDY EDP 100ML", image: "images/Yara candy.jpeg", image2: "", waText: "Lattafa ASAD YARA CANDY EDP 100ML", category: "arabes", price: 35000 },
+    { name: "Lattafa Khamrah EDP unisex 100ML", image: "images/Khamrah.jpeg", image2: "", waText: "Lattafa Khamrah EDP unisex 100ML", category: "arabes", price: 52000 },
+    { name: "BADEE AL OUD OUD NOBLE BLUSH EDP 100ML", image: "images/Noble blush.jpeg", image2: "", waText: "BADEE AL OUD OUD NOBLE BLUSH EDP 100ML", category: "arabes", price: 40000 },
+    { name: "BADEE AL OUD FOR GLORY EDP 100ML ", image: "images/Oud for glory.jpeg", image2: "", waText: "BADEE AL OUD FOR GLORY EDP 100ML ", category: "arabes", price: 48000 },
+    { name: "BADEE ALOUD AMETHYST F EDP 100ML", image: "images/Amatyst.jpeg", image2: "", waText: "BADEE ALOUD AMETHYST F EDP 100ML", category: "arabes", price: 48000 },
+    { name: "ASAD ZANZIBAR EDP 100ML", image: "images/Zanzibar.jpeg", image2: "", waText: "ASAD ZANZIBAR EDP 100ML", category: "arabes", price: 34000 },
+    { name: "BADEE AL OUD HONOR & GLORY EDP 100ML ", image: "images/Honor and glory.jpeg", image2: "", waText: "BADEE AL OUD HONOR & GLORY EDP 100ML ", category: "arabes", price: 45000 },
+    { name: "Azzaro The Most Wanted EDP Intense [SIN STOCK]", image: "images/azzaro most wanted.jpeg", image2: "", waText: "Azzaro The Most Wanted EDP Intense", category: "disenador", price: 1111111 },
+    { name: "Carolina Herrera 212 VIP Rose Elixir [SIN STOCK]", image: "images/212 vip rose.jpeg", image2: "", waText: "Carolina Herrera 212 VIP Rose Elixir", category: "disenador", price: 11111 },
+    { name: "Carolina Herrera Good Girl [SIN STOCK]" , image: "images/good girl.jpeg", image2: "", waText: "Carolina Herrera Good Girl", category: "disenador", price: 1111111 },
+    { name: "Dior Sauvage EDP [SIN STOCK]", image: "images/sauvage dior.jpeg", image2: "", waText: "Dior Sauvage EDP", category: "disenador", price: 1111111 },
+    { name: "Jean Paul Gaultier Le Male Elixir [SIN STOCK]", image: "images/jean paul.jpeg", image2: "", waText: "Jean Paul Gaultier Le Male Elixir", category: "disenador", price: 11111 },
+    { name: "Valentino Donna Born in Roma [SIN STOCK]", image: "images/valentino donna.jpeg", image2: "", waText: "Valentino Donna Born in Roma", category: "disenador", price: 11111111 },
+    { name: "Versace Dylan Blue Pour Homme [SIN STOCK]", image: "images/dylan blue.jpeg", image2: "", waText: "Versace Dylan Blue Pour Homme", category: "disenador", price: 111111 }
   ];
 
   const decants = [
@@ -203,7 +215,10 @@
     if (filtered.length === 0) return;
     section.innerHTML = filtered.map(product => `
       <div class="product">
-        <img src="${product.image}" alt="${product.waText}">
+        <div class="product-images">
+          <img src="${product.image}" alt="${product.waText}">
+          ${product.image2 ? `<img src="${product.image2}" alt="${product.waText} extra">` : ""}
+        </div>
         <h3>${product.name}</h3>
         <div class="precio">Precio: $${product.price ? product.price.toLocaleString('es-AR') : '------'}</div>
         <button onclick="window.open('https://wa.me/541138722792?text=Hola! Estoy interesado en el perfume ${encodeURIComponent(product.waText)}.')">Consultar</button>
@@ -214,7 +229,9 @@
     const section = document.getElementById(containerId);
     section.innerHTML = decants.map(decant => `
       <div class="product">
-        <img src="${decant.image}" alt="${decant.waText}">
+        <div class="product-images">
+          <img src="${decant.image}" alt="${decant.waText}">
+        </div>
         <h3>${decant.name}</h3>
         <div class="precio">Precio: $${decant.price ? decant.price.toLocaleString('es-AR') : '------'}</div>
         <button onclick="window.open('https://wa.me/541138722792?text=Hola! Estoy interesado en el ${encodeURIComponent(decant.waText)}.')">Consultar</button>
@@ -228,4 +245,3 @@
 
 </body>
 </html>
-
