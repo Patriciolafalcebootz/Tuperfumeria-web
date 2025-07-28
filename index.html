@@ -95,9 +95,79 @@
         .category-tab.active, .category-tab:hover {
             border-bottom: 2px solid var(--secondary);
         }
+
+        /* Estilos para el carrito */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 350px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 101;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .cart-overlay.active {
+            transform: translateX(0);
+        }
+        
+        .cart-item {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+        
+        .cart-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            margin-right: 15px;
+        }
     </style>
 </head>
 <body>
+    <!-- Botón del carrito flotante -->
+    <div class="fixed bottom-8 right-8 z-50">
+        <button onclick="toggleCart()" class="bg-gray-800 text-white p-4 rounded-full shadow-lg hover:bg-gray-700 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <span id="cart-count" class="absolute -top-2 -right-2 bg-yellow-500 text-gray-800 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">0</span>
+        </button>
+    </div>
+
+    <!-- Carrito lateral -->
+    <div class="cart-overlay">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-bold">Tu Carrito</h3>
+            <button onclick="toggleCart()" class="text-gray-500 hover:text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        
+        <div id="cart-items" class="mb-4">
+            <!-- Los items del carrito se agregarán aquí dinámicamente -->
+        </div>
+        
+        <div class="border-t pt-4">
+            <div class="flex justify-between font-bold text-lg mb-4">
+                <span>Total:</span>
+                <span id="cart-total">$0</span>
+            </div>
+            <button onclick="checkout()" class="bg-gray-800 text-white px-4 py-2 rounded font-medium hover:bg-gray-700 transition w-full">
+                Finalizar Compra
+            </button>
+        </div>
+    </div>
+
     <header class="hero py-20 mb-12">
         <div class="container mx-auto px-4 text-center">
             <h1 class="text-5xl md:text-6xl font-bold text-white mb-4">TuPerfumería</h1>
@@ -110,7 +180,8 @@
             <div>
                 <h2 class="text-3xl font-bold mb-4 md:mb-6">Nuestro Catálogo</h2>
                 <div class="flex flex-wrap gap-4 mb-6">
-                    <button class="category-tab px-4 py-2 font-medium bg-gray-100 rounded-lg active" data-category="perfumes">Perfumes</button>
+                    <button class="category-tab px-4 py-2 font-medium bg-gray-100 rounded-lg active" data-category="arabes">Árabes</button>
+                    <button class="category-tab px-4 py-2 font-medium bg-gray-100 rounded-lg" data-category="disenador">Diseñador</button>
                     <button class="category-tab px-4 py-2 font-medium bg-gray-100 rounded-lg" data-category="decants">Decants</button>
                 </div>
             </div>
@@ -118,10 +189,16 @@
 
         <!-- Tab Content -->
         <div class="tab-content">
-            <!-- Perfumes Tab -->
-            <div id="perfumes" class="tab-panel active">
-                <h3 class="text-2xl font-semibold mb-6 text-center">Perfumes Árabes y de Diseñador</h3>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16" id="perfumesGrid"></div>
+            <!-- Árabes Tab -->
+            <div id="arabes" class="tab-panel active">
+                <h3 class="text-2xl font-semibold mb-6 text-center">Perfumes Árabes</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16" id="arabesGrid"></div>
+            </div>
+            
+            <!-- Diseñador Tab -->
+            <div id="disenador" class="tab-panel hidden">
+                <h3 class="text-2xl font-semibold mb-6 text-center">Perfumes de Diseñador</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16" id="disenadorGrid"></div>
             </div>
             
             <!-- Decants Tab -->
@@ -144,18 +221,14 @@
                 <div>
                     <h3 class="text-xl font-bold mb-4">Redes Sociales</h3>
                     <div class="flex space-x-4">
-                        <a href="#" class="hover:text-yellow-300">Instagram</a>
-                        <a href="#" class="hover:text-yellow-300">Facebook</a>
-                        <a href="#" class="hover:text-yellow-300">TikTok</a>
+                        <a href="https://instagram.com/tuperfumeria" target="_blank" class="hover:text-yellow-300">Instagram</a>
+                        <a href="https://facebook.com/tuperfumeria" target="_blank" class="hover:text-yellow-300">Facebook</a>
+                        <a href="https://tiktok.com/@tuperfumeria" target="_blank" class="hover:text-yellow-300">TikTok</a>
                     </div>
                 </div>
                 
                 <div>
-                    <h3 class="text-xl font-bold mb-4">Newsletter</h3>
-                    <form class="flex">
-                        <input type="email" placeholder="Tu email" class="px-4 py-2 rounded-l text-gray-800 w-full">
-                        <button type="submit" class="bg-yellow-500 text-gray-800 px-4 py-2 rounded-r font-medium">Suscribir</button>
-                    </form>
+                    <!-- Espacio dejado en blanco como solicitaste -->
                 </div>
             </div>
             
@@ -165,7 +238,7 @@
         </div>
     </footer>
 
-    <!-- Modal -->
+    <!-- Modal de producto -->
     <div class="modal-overlay" id="modal">
         <div class="modal-content">
             <div class="relative p-6">
@@ -237,23 +310,48 @@
             { nombre: "Lattafa Khamrah - Decant 5ml [SIN STOCK]", imagenes: ["https://puntotienda.com.py/wp-content/uploads/2023/02/s-l1600.jpg"], categoria: "Decant Árabe", precio: 111111, descripcion: "", stock: false }
         ];
 
+        // Carrito
+        let cart = [];
+        let currentProduct = null;
+
         // Renderizado de productos
-        function renderProductos(arr, gridId) {
-            const grid = document.getElementById(gridId);
-            grid.innerHTML = "";
-            arr.forEach((p, idx) => {
-                const card = document.createElement("div");
-                card.className = "perfume-card bg-white rounded-lg overflow-hidden cursor-pointer";
-                card.onclick = () => openModalProducto(p);
-                card.innerHTML = `
-                    <img src="${p.imagenes[0]}" alt="${p.nombre}" class="w-full h-48 object-cover">
-                    <div class="p-4">
-                        <h5 class="font-bold text-lg">${p.nombre}</h5>
-                        <p class="text-gray-600 text-sm">$${p.precio.toLocaleString('es-AR')}</p>
-                    </div>
-                `;
-                grid.appendChild(card);
+        function renderProductos() {
+            const arabesGrid = document.getElementById("arabesGrid");
+            const disenadorGrid = document.getElementById("disenadorGrid");
+            const decantsGrid = document.getElementById("decantsGrid");
+            
+            arabesGrid.innerHTML = "";
+            disenadorGrid.innerHTML = "";
+            decantsGrid.innerHTML = "";
+            
+            // Filtrar y renderizar productos árabes
+            productos.filter(p => p.categoria === "Árabes").forEach(p => {
+                arabesGrid.appendChild(createProductCard(p));
             });
+            
+            // Filtrar y renderizar productos de diseñador
+            productos.filter(p => p.categoria === "Diseñador").forEach(p => {
+                disenadorGrid.appendChild(createProductCard(p));
+            });
+            
+            // Renderizar decants
+            decants.forEach(p => {
+                decantsGrid.appendChild(createProductCard(p));
+            });
+        }
+
+        function createProductCard(p) {
+            const card = document.createElement("div");
+            card.className = "perfume-card bg-white rounded-lg overflow-hidden cursor-pointer";
+            card.onclick = () => openModalProducto(p);
+            card.innerHTML = `
+                <img src="${p.imagenes[0]}" alt="${p.nombre}" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h5 class="font-bold text-lg">${p.nombre}</h5>
+                    <p class="text-gray-600 text-sm">$${p.precio.toLocaleString('es-AR')}</p>
+                </div>
+            `;
+            return card;
         }
 
         // Tabs
@@ -269,6 +367,7 @@
 
         // Modal de producto
         function openModalProducto(prod) {
+            currentProduct = prod;
             document.getElementById('modal-title').textContent = prod.nombre;
             document.getElementById('modal-category').textContent = prod.categoria;
             document.getElementById('modal-description').textContent = prod.descripcion || '';
@@ -312,31 +411,116 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Shopping cart functionality
-        let cart = [];
-        
+        // Funcionalidad del carrito
+        function toggleCart() {
+            document.querySelector('.cart-overlay').classList.toggle('active');
+            updateCart();
+        }
+
         function addToCart() {
-            const productName = document.getElementById('modal-title').textContent;
-            const productPrice = document.getElementById('modal-price').textContent;
-            const productImage = document.getElementById('main-image').src;
+            if (!currentProduct) return;
             
             const product = {
-                name: productName,
-                price: productPrice,
-                image: productImage
+                name: currentProduct.nombre,
+                price: currentProduct.precio,
+                image: currentProduct.imagenes[0],
+                quantity: 1
             };
             
-            cart.push(product);
-            alert(`${product.name} agregado al carrito!`);
+            // Verificar si el producto ya está en el carrito
+            const existingItem = cart.find(item => item.name === product.name);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push(product);
+            }
+            
+            updateCart();
             closeModal();
+            showNotification(`${product.name} agregado al carrito`);
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            const cartTotal = document.getElementById('cart-total');
+            
+            cartItems.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="text-gray-500">Tu carrito está vacío</p>';
+                cartCount.textContent = '0';
+                cartTotal.textContent = '$0';
+                return;
+            }
+            
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                total += item.price * item.quantity;
+                
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" class="rounded">
+                    <div class="flex-1">
+                        <h4 class="font-medium">${item.name}</h4>
+                        <p class="text-sm text-gray-600">$${item.price.toLocaleString('es-AR')} x ${item.quantity}</p>
+                        <p class="text-sm font-bold">$${(item.price * item.quantity).toLocaleString('es-AR')}</p>
+                    </div>
+                    <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                    </button>
+                `;
+                cartItems.appendChild(itemElement);
+            });
+            
+            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartTotal.textContent = `$${total.toLocaleString('es-AR')}`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+            showNotification('Producto eliminado del carrito');
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            const whatsappNumber = "+5491138722792";
+            let message = "Hola, estoy interesado en los siguientes productos:\n\n";
+            
+            cart.forEach(item => {
+                message += `- ${item.name} (${item.quantity} x $${item.price.toLocaleString('es-AR')})\n`;
+            });
+            
+            message += `\nTotal: $${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toLocaleString('es-AR')}`;
+            
+            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
         }
 
         function buyNow() {
-            const productName = encodeURIComponent(document.getElementById('modal-title').textContent);
+            if (!currentProduct) return;
+            
             const whatsappNumber = "+5491138722792";
-            const message = `Hola, me interesa comprar: ${productName}`;
-            window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+            const message = `Hola, me interesa comprar: ${currentProduct.nombre} - $${currentProduct.precio.toLocaleString('es-AR')}`;
+            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
             closeModal();
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
         }
 
         // Close modal when clicking outside content
@@ -346,9 +530,10 @@
             }
         });
 
-        // Inicializa la página con los productos y decants
-        renderProductos(productos, "perfumesGrid");
-        renderProductos(decants, "decantsGrid");
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProductos();
+        });
     </script>
 </body>
 </html>
