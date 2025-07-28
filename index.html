@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TuPerfumería</title>
-  <!-- Fuente moderna Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Inter', Arial, sans-serif; margin: 0; padding: 0; background: #fafafa; color: #333; }
@@ -89,19 +88,40 @@
       margin-bottom: 0.7rem;
       min-height: 100px;
     }
-    .product-image-container img { max-width: 110px; height: 110px; object-fit: cover; border-radius: 6px; border: 1px solid #eee; transition: box-shadow 0.2s;}
-    .product-image-btn {
-      margin-top: 0.5rem;
-      background: #2563eb;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 0.3rem 0.9rem;
-      font-size: 1rem;
+    .product-image-container img {
+      max-width: 110px;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #eee;
+      transition: box-shadow 0.2s, opacity 0.23s;
       cursor: pointer;
-      transition: background 0.2s;
+      background: #fafafa;
+      display: block;
+      margin: 0 auto 0.4rem auto;
     }
-    .product-image-btn:hover { background: #1746a0; }
+    .product-image-container img:hover {
+      box-shadow: 0 2px 12px #2563eb33;
+      opacity: 0.92;
+    }
+    .indicator-dots {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      margin-top: 2px;
+      margin-bottom: 4px;
+    }
+    .indicator-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #bbb;
+      transition: background 0.19s;
+      display: inline-block;
+    }
+    .indicator-dot.active {
+      background: #2563eb;
+    }
     .product h3 { font-size: 1rem; margin: 0.5rem 0; }
     .precio { font-size: 1.1rem; color: #2563eb; margin: 0.6em 0 1em 0; font-weight: bold;}
     .product button:not(.product-image-btn) {
@@ -231,16 +251,27 @@
     if (filtered.length === 0) return;
     section.innerHTML = filtered.map((product, idx) => {
       const hasSecond = product.image2 && product.image2.trim() !== "";
-      // Usamos un id único para cada imagen para poder alternarla
       const imgId = `${containerId}-img-${idx}`;
-      const btnId = `${containerId}-btn-${idx}`;
+      const dotId1 = `${containerId}-dot1-${idx}`;
+      const dotId2 = `${containerId}-dot2-${idx}`;
+      // Si no hay segunda imagen, no mostramos dots
       return `
       <div class="product">
         <div class="product-image-container">
-          <img id="${imgId}" src="${product.image}" alt="${product.waText}">
+          <img 
+            id="${imgId}" 
+            src="${product.image}" 
+            alt="${product.waText}" 
+            style="cursor:${hasSecond ? 'pointer' : 'default'}"
+            onclick="toggleProductImageML(this, '${product.image}', '${product.image2}', '${dotId1}', '${dotId2}')"
+            title="${hasSecond ? 'Haz clic para alternar foto' : ''}"
+          >
           ${
             hasSecond
-            ? `<button type="button" class="product-image-btn" id="${btnId}" onclick="toggleProductImage('${imgId}','${btnId}','${product.image}','${product.image2}')">Ver foto 2</button>`
+            ? `<div class="indicator-dots">
+                <span class="indicator-dot active" id="${dotId1}"></span>
+                <span class="indicator-dot" id="${dotId2}"></span>
+               </div>`
             : ""
           }
         </div>
@@ -265,17 +296,21 @@
     `).join('');
   }
 
-  // Función global para alternar la imagen y el texto del botón
-  function toggleProductImage(imgId, btnId, img1, img2) {
-    const img = document.getElementById(imgId);
-    const btn = document.getElementById(btnId);
-    if (img && btn) {
-      if (img.src.includes(img1)) {
-        img.src = img2;
-        btn.textContent = "Perfume y caja";
-      } else {
-        img.src = img1;
-        btn.textContent = "Notas";
+  // Alternar entre imagen 1 y 2 al hacer clic y actualizar dots
+  function toggleProductImageML(imgElem, img1, img2, dotId1, dotId2) {
+    if (!img2 || img2.trim() === "") return;
+    // Si está mostrando la img1, cambiar a img2 y viceversa
+    if (imgElem.src.includes(img1)) {
+      imgElem.src = img2;
+      if (dotId1 && dotId2) {
+        document.getElementById(dotId1).classList.remove('active');
+        document.getElementById(dotId2).classList.add('active');
+      }
+    } else {
+      imgElem.src = img1;
+      if (dotId1 && dotId2) {
+        document.getElementById(dotId1).classList.add('active');
+        document.getElementById(dotId2).classList.remove('active');
       }
     }
   }
