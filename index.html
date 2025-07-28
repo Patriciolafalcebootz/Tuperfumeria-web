@@ -83,17 +83,36 @@
     .catalog-section h2 { text-align: left; margin-left: 2rem; color: #222; }
     .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; padding: 2rem; }
     .product { border: 1px solid #ccc; background: #fff; padding: 1rem; text-align: center; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    /* Galería para dos imágenes */
-    .product-images {
-      display: flex;
-      gap: 0.5rem;
-      justify-content: center;
-      margin-bottom: 0.5rem;
+    .product-image-container {
+      position: relative;
+      text-align: center;
+      margin-bottom: 0.7rem;
+      min-height: 100px;
     }
-    .product-images img { max-width: 100px; height: 100px; object-fit: cover; border-radius: 6px; border: 1px solid #eee; }
+    .product-image-container img { max-width: 110px; height: 110px; object-fit: cover; border-radius: 6px; border: 1px solid #eee; transition: box-shadow 0.2s;}
+    .product-image-btn {
+      margin-top: 0.5rem;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.3rem 0.9rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .product-image-btn:hover { background: #1746a0; }
     .product h3 { font-size: 1rem; margin: 0.5rem 0; }
     .precio { font-size: 1.1rem; color: #2563eb; margin: 0.6em 0 1em 0; font-weight: bold;}
-    .product button { background: #2563eb; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; }
+    .product button:not(.product-image-btn) {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 0.3rem;
+    }
     .download-btn {
       display: inline-block;
       background: #2563eb;
@@ -107,10 +126,8 @@
       transition: background 0.2s;
       margin-bottom: 2em;
     }
-    .download-btn:hover {
-      background: #1746a0;
-    }
-    .product button:hover { background: #1746a0; }
+    .download-btn:hover { background: #1746a0; }
+    .product button:not(.product-image-btn):hover { background: #1746a0; }
     footer { background: #111; color: #fff; text-align: center; padding: 1rem; }
     footer p { margin: 0.2rem 0; }
     .footer-contact { color: #2563eb; }
@@ -119,8 +136,7 @@
       .catalog-section h2 { margin-left: 1rem; }
       .products { padding: 1rem; gap: 1rem; }
       .promo { font-size: 1rem; padding: 1.2rem 0.5rem 1rem 0.5rem; }
-      .product-images { flex-direction: column; align-items: center; }
-      .product-images img { width: 100%; max-width: 170px; }
+      .product-image-container img { width: 100%; max-width: 170px; }
     }
   </style>
 </head>
@@ -179,7 +195,7 @@
 </footer>
 
 <script>
-  // Agrega o edita el campo 'image2' para cada producto si deseas mostrar una segunda imagen
+  // Puedes agregar más rutas image2 según lo necesites
   const products = [
     { name: "Al Haramain Amber Oud Gold Unisex 120ML", image: "images/Amber oud gold.jpeg", image2: "images/Amber oud gold 2.jpeg", waText: "Al Haramain Amber Oud Gold Unisex 120ML", category: "arabes", price: 85000 },        
     { name: "Armaf Club de Nuit intense man EDT 100ML", image: "images/Club de nuit intense.jpeg", image2: "images/Club de nuit intense 2.jpeg", waText: "Armaf Club de Nuit intense man EDT 100ML", category: "arabes", price: 48000 },
@@ -213,23 +229,33 @@
     const section = document.getElementById(containerId);
     const filtered = products.filter(p => p.category === category);
     if (filtered.length === 0) return;
-    section.innerHTML = filtered.map(product => `
+    section.innerHTML = filtered.map((product, idx) => {
+      const hasSecond = product.image2 && product.image2.trim() !== "";
+      // Usamos un id único para cada imagen para poder alternarla
+      const imgId = `${containerId}-img-${idx}`;
+      const btnId = `${containerId}-btn-${idx}`;
+      return `
       <div class="product">
-        <div class="product-images">
-          <img src="${product.image}" alt="${product.waText}">
-          ${product.image2 ? `<img src="${product.image2}" alt="${product.waText} extra">` : ""}
+        <div class="product-image-container">
+          <img id="${imgId}" src="${product.image}" alt="${product.waText}">
+          ${
+            hasSecond
+            ? `<button type="button" class="product-image-btn" id="${btnId}" onclick="toggleProductImage('${imgId}','${btnId}','${product.image}','${product.image2}')">Ver foto 2</button>`
+            : ""
+          }
         </div>
         <h3>${product.name}</h3>
         <div class="precio">Precio: $${product.price ? product.price.toLocaleString('es-AR') : '------'}</div>
         <button onclick="window.open('https://wa.me/541138722792?text=Hola! Estoy interesado en el perfume ${encodeURIComponent(product.waText)}.')">Consultar</button>
       </div>
-    `).join('');
+    `}).join('');
   }
+
   function renderDecants(containerId) {
     const section = document.getElementById(containerId);
     section.innerHTML = decants.map(decant => `
       <div class="product">
-        <div class="product-images">
+        <div class="product-image-container">
           <img src="${decant.image}" alt="${decant.waText}">
         </div>
         <h3>${decant.name}</h3>
@@ -238,6 +264,22 @@
       </div>
     `).join('');
   }
+
+  // Función global para alternar la imagen y el texto del botón
+  function toggleProductImage(imgId, btnId, img1, img2) {
+    const img = document.getElementById(imgId);
+    const btn = document.getElementById(btnId);
+    if (img && btn) {
+      if (img.src.includes(img1)) {
+        img.src = img2;
+        btn.textContent = "Perfume y caja";
+      } else {
+        img.src = img1;
+        btn.textContent = "Notas";
+      }
+    }
+  }
+
   renderProducts('arabes', 'arabes-products');
   renderProducts('disenador', 'disenador-products');
   renderDecants('decants-products');
