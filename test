@@ -1,0 +1,892 @@
+🔄 **HTML Edit Mode** - Processing your edit request...
+
+For the hero section change with more delicate colors and removal of the outline, here are the diffs:
+
+1. First for the header section:
+```diff
+<<<<<<< SEARCH
+    <header class="hero py-20 mb-12" style="outline: rgb(0, 0, 0) dotted 3px; outline-offset: 1px;">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-5xl md:text-6xl font-bold text-white mb-4" style="">TuPerfumería</h1>
+            <p class="text-xl text-white opacity-90">Perfumes exclusivos y decants de calidad</p>
+        </div>
+    </header>
+=======
+    <header class="hero py-20 mb-12">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-5xl md:text-6xl font-bold text-white mb-4">TuPerfumería</h1>
+            <p class="text-xl text-white opacity-90">Perfumes exclusivos y decants de calidad</p>
+        </div>
+    </header>
+>>>>>>> REPLACE
+
+2
+```
+. Then for the CSS background style (in the head section):
+```diff
+<<<<<<< SEARCH
+        .hero {
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.9) 0%, rgba(52, 73, 94, 0.8) 100%), url('https://placehold.co/1920x600') no-repeat center center;
+            background-size: cover;
+        }
+=======
+        .hero {
+            background: linear-gradient(135deg, rgba(216, 202, 213, 0.9) 0%, rgba(222, 209, 218, 0.8) 100%), url('https://placehold.co/1920x600') no-repeat center center;
+            background-size: cover;
+        }
+>>>>>>> REPLACE
+
+3
+```
+. And to update the general page background color:
+```diff
+<<<<<<< SEARCH
+            background-color: #f8fafc;
+=======
+            background-color: #f9f5f9;
+>>>>>>> REPLACE
+```
+
+
+These changes will:
+1. Remove the black dotted outline
+2. Change the hero gradient to softer pastel tones
+3. Make the page background a delicate off-white with a subtle pink undertone for eleganceHere is the updated HTML content after applying above edits:
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuPerfumería - Perfumes exclusivos y decants</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap');
+        
+        :root {
+            --primary: #2c3e50;
+            --secondary: #ecc94b;
+            --accent: #9f7aea;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f5f9;
+            color: var(--primary);
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, rgba(216, 202, 213, 0.9) 0%, rgba(222, 209, 218, 0.8) 100%), url('https://placehold.co/1920x600') no-repeat center center;
+            background-size: cover;
+        }
+        
+        .perfume-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .perfume-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.75);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 0.5rem;
+            width: 80%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .gallery-thumbnail {
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        
+        .gallery-thumbnail:hover {
+            opacity: 0.8;
+        }
+        
+        .category-tab {
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .category-tab.active, .category-tab:hover {
+            border-bottom: 2px solid var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <header class="hero py-20 mb-12">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-5xl md:text-6xl font-bold text-white mb-4">TuPerfumería</h1>
+            <p class="text-xl text-white opacity-90">Perfumes exclusivos y decants de calidad</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+            <h2 class="text-3xl font-bold mb-4 md:mb-0">Nuestro Catálogo</h2>
+            <div class="flex space-x-4 overflow-x-auto pb-2">
+                <button class="category-tab px-4 py-2 font-medium active" data-category="perfumes">Perfumes</button>
+                <button class="category-tab px-4 py-2 font-medium" data-category="decants">Decants</button>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Perfumes Tab -->
+            <div id="perfumes" class="tab-panel active">
+                <h3 class="text-2xl font-semibold mb-6 text-center">Tipos de Perfumes</h3>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                    <!-- Arabes -->
+                    <div class="category-section">
+                        <h4 class="text-xl font-semibold mb-4 text-center border-b pb-2">Árabes</h4>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="perfume-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openModal('Árabe 1', 'Un perfume intenso con notas de oud, ámbar y especias orientales.', 'arabes')">
+                                <img src="https://placehold.co/600x400" alt="Perfume árabe en frasco dorado con detalles geométricos" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h5 class="font-bold text-lg">Árabe 1</h5>
+                                    <p class="text-gray-600 text-sm">$120.00</p>
+                                </div>
+                            </div>
+                            
+                            <div class="perfume-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openModal('Árabe 2', 'Fusión de rosas turcas con sándalo y un toque de azafrán.', 'arabes')">
+                                <img src="https://placehold.co/600x400" alt="Frasco de perfume árabe azul con patrones ornamentales dorados" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h5 class="font-bold text-lg">Árabe 2</h5>
+                                    <p class="text-gray-600 text-sm">$135.00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- De Autor -->
+                    <div class="category-section">
+                        <h4 class="text-xl font-semibold mb-4 text-center border-b pb-2">De Autor</h4>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="perfume-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openModal('Autor 1', 'Creación exclusiva con notas de bergamota, jazmín y vainilla.', 'autor')">
+                                <img src="https://placehold.co/600x400" alt="Frasco de diseño minimalista en cristal con tapa negra" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h5 class="font-bold text-lg">Autor 1</h5>
+                                    <p class="text-gray-600 text-sm">$180.00</p>
+                                </div>
+                            </div>
+                            
+                            <div class="perfume-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openModal('Autor 2', 'Firma del perfumista con acordes de pimienta rosa y sándalo.', 'autor')">
+                                <img src="https://placehold.co/600x400" alt="Perfume de autor en frasco rectangular con detalles metálicos" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h5 class="font-bold text-lg">Autor 2</h5>
+                                    <p class="text-gray-600 text-sm">$200.00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nicho -->
+                    <div class="category-section">
+                        <h4 class="text-xl font-semibold mb-4 text-center border-b pb-2">Nicho</h4>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="perfume-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openModal('Nicho 1', 'Edición limitada con notas de iris, cuero y haba tonka.', 'nicho')">
+                                <img src="https://placehold.co/600x400" alt="Frasco de perfume de nicho con diseño artístico abstracto" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h5 class="font-bold text-lg">Nicho 1</h5>
+                                    <p class="text-gray-600 text-sm">$250.00</p>
+                                </div>
+                            </div>
+                            
+                            <div class="perfume-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openModal('Nicho 2', 'Composición olfativa innovadora con acentos metálicos.', 'nicho')">
+                                <img src="https://placehold.co/600x400" alt="Frasco curvilíneo de perfume de nicho en tonos plateados" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h5 class="font-bold text-lg">Nicho 2</h5>
+                                    <p class="text-gray-600 text-sm">$280.00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Decants Tab -->
+            <div id="decants" class="tab-panel hidden">
+                <h3 class="text-2xl font-semibold mb-6 text-center">Decants Disponibles</h3>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                    <!-- Arabes Decants -->
+                    <div class="category-section">
+                        <h4 class="text-xl font-semibold mb-4 text-center border-b pb-2">Árabes</h4>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="perfume-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openModal('Decant Árabe 1', 'Versión en decant del perfume árabe con notas intensas.', 'arabes-decants')">
+                                <img src="https://placehold.co/600x400" alt="Decant de perfume árabe en frasco de vidrio pequeño" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h5 class="font-bold text-lg">Decant Árabe 1</h5>
+                                    <p class="text-gray-600 text-sm">$45.00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- De Autor Decants -->
+                    <div class="category-section">
+                        <h4 class="text-xl font-semibold mb-4 text-center border-b pb-2">De Autor</h4>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="perfume-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openModal('Decant Autor 1', 'Decant del perfume de autor para probar antes de comprar.', 'autor-decants')">
+                                <img src="https://placehold.co/600x400" alt="Frasquitos de perfume de autor alineados en estante" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h5 class="font-bold text-lg">Decant Autor 1</h5>
+                                    <p class="text-gray-600 text-sm">$50.00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nicho Decants -->
+                    <div class="category-section">
+                        <h4 class="text-xl font-semibold mb-4 text-center border-b pb-2">Nicho</h4>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="perfume-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openModal('Decant Nicho 1', 'Edición especial en decant de la fragancia de nicho.', 'nicho-decants')">
+                                <img src="https://placehold.co/600x400" alt="Decant de perfume de nicho con etiqueta minimalista" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h5 class="font-bold text-lg">Decant Nicho 1</h5>
+                                    <p class="text-gray-600 text-sm">$55.00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-12 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Contacto</h3>
+                    <p class="mb-2">WhatsApp: +1234567890</p>
+                    <p>Email: contacto@tuperfumeria.com</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Redes Sociales</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-yellow-300">Instagram</a>
+                        <a href="#" class="hover:text-yellow-300">Facebook</a>
+                        <a href="#" class="hover:text-yellow-300">TikTok</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Newsletter</h3>
+                    <form class="flex">
+                        <input type="email" placeholder="Tu email" class="px-4 py-2 rounded-l text-gray-800 w-full">
+                        <button type="submit" class="bg-yellow-500 text-gray-800 px-4 py-2 rounded-r font-medium">Suscribir</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p>&copy; 2023 TuPerfumería. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <div class="relative p-6">
+                <button class="absolute top-4 right-4 text-2xl font-bold text-gray-500 hover:text-gray-700" onclick="closeModal()">&times;</button>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="gallery-container">
+                        <img id="main-image" src="https://placehold.co/800x800" alt="Imagen principal del perfume" class="w-full rounded-lg">
+                        
+                        <div class="thumbnail-grid grid grid-cols-4 gap-2 mt-4">
+                            <img src="https://placehold.co/200x200" alt="Frente del frasco de perfume" class="gallery-thumbnail rounded cursor-pointer" onclick="changeImage(this)">
+                            <img src="https://placehold.co/200x200" alt="Detalle del diseño del frasco" class="gallery-thumbnail rounded cursor-pointer" onclick="changeImage(this)">
+                            <img src="https://placehold.co/200x200" alt="Caja del perfume sobre fondo blanco" class="gallery-thumbnail rounded cursor-pointer" onclick="changeImage(this)">
+                            <img src="https://placehold.co/200x200" alt="Perfume en uso siendo aplicado" class="gallery-thumbnail rounded cursor-pointer" onclick="changeImage(this)">
+                        </div>
+                    </div>
+                    
+                    <div class="product-info">
+                        <h3 id="modal-title" class="text-3xl font-bold mb-2"></h3>
+                        <span id="modal-category" class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mb-4"></span>
+                        
+                        <p id="modal-description" class="text-gray-700 mb-6"></p>
+                        
+                        <h4 class="font-bold mb-2">Notas Olfativas:</h4>
+                        <ul class="mb-6">
+                            <li class="flex items-center mb-1">
+                                <span class="block w-4 h-4 bg-yellow-500 rounded-full mr-2"></span>
+                                Superiores: Bergamota, mandarina, pimienta rosa
+                            </li>
+                            <li class="flex items-center mb-1">
+                                <span class="block w-4 h-4 bg-pink-400 rounded-full mr-2"></span>
+                                Medias: Rosa, jazmín, lirio
+                            </li>
+                            <li class="flex items-center mb-1">
+                                <span class="block w-4 h-4 bg-amber-800 rounded-full mr-2"></span>
+                                Base: Vainilla, sándalo, ámbar
+                            </li>
+                        </ul>
+                        
+                        <div class="flex flex-wrap mb-6">
+                            <div class="w-full sm:w-1/2 pr-2 mb-2 sm:mb-0">
+                                <h4 class="font-bold">Duración:</h4>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1">
+                                    <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 90%"></div>
+                                </div>
+                                <span class="text-sm">8-10 horas</span>
+                            </div>
+                            
+                            <div class="w-full sm:w-1/2 pl-2">
+                                <h4 class="font-bold">Proyección:</h4>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1">
+                                    <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 70%"></div>
+                                </div>
+                                <span class="text-sm">Moderada-Alta</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-4">
+                            <span class="text-2xl font-bold mr-4">$150.00</span>
+                            <div class="flex items-center bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Disponible
+                            </div>
+                        </div>
+                        
+                        <button class="bg-gray-800 text-white px-6 py-3 rounded font-medium hover:bg-gray-700 transition w-full mb-4">
+                            Comprar ahora
+                        </button>
+                        
+                        <button class="bg-yellow-500 text-gray-800 px-6 py-3 rounded font-medium hover:bg-yellow-400 transition w-full">
+                            Añadir al carrito
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and panels
+                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Show corresponding panel
+                const category = tab.dataset.category;
+                document.getElementById(category).classList.remove('hidden');
+            });
+        });
+        
+        // Modal functionality
+        function openModal(title, description, category) {
+            const modal = document.getElementById('modal');
+            modal.classList.add('active');
+            
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-description').textContent = description;
+            document.getElementById('modal-category').textContent = category;
+            
+            // Change main image based on product
+            const mainImage = document.getElementById('main-image');
+            if (category.includes('arabes')) {
+                mainImage.src = 'https://placehold.co/800x800';
+                mainImage.alt = `Perfume árabe ${title} mostrando detalles de diseño`;
+            } else if (category.includes('autor')) {
+                mainImage.src = 'https://placehold.co/800x800';
+                mainImage.alt = `Perfume de autor ${title} en exhibición`;
+            } else {
+                mainImage.src = 'https://placehold.co/800x800';
+                mainImage.alt = `Perfume de nicho ${title} con diseño distintivo`;
+            }
+            
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function changeImage(element) {
+            document.getElementById('main-image').src = element.src;
+            document.getElementById('main-image').alt = element.alt;
+        }
+        
+        // Close modal when clicking outside content
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('modal')) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
+```
+
+🎨 **Generating images based on descriptions...**
+
+✅ **Images generated successfully! Here's your updated content:**
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuPerfumería - Perfumes exclusivos y decants</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap');
+        
+        :root {
+            --primary: #2c3e50;
+            --secondary: #ecc94b;
+            --accent: #9f7aea;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f5f9;
+            color: var(--primary);
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, rgba(216, 202, 213, 0.9) 0%, rgba(222, 209, 218, 0.8) 100%), url('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/46424ddb-5e2d-4921-a63b-e4c58b040163.png') no-repeat center center;
+            background-size: cover;
+        }
+        
+        .perfume-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .perfume-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.75);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 0.5rem;
+            width: 80%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .gallery-thumbnail {
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        
+        .gallery-thumbnail:hover {
+            opacity: 0.8;
+        }
+        
+        .category-tab {
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .category-tab.active, .category-tab:hover {
+            border-bottom: 2px solid var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <header class="hero py-20 mb-12">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-5xl md:text-6xl font-bold text-white mb-4">TuPerfumería</h1>
+            <p class="text-xl text-white opacity-90">Perfumes exclusivos y decants de calidad</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+            <h2 class="text-3xl font-bold mb-4 md:mb-0">Nuestro Catálogo</h2>
+            <div class="flex space-x-4 overflow-x-auto pb-2">
+                <button class="category-tab px-4 py-2 font-medium active" data-category="perfumes">Perfumes</button>
+                <button class="category-tab px-4 py-2 font-medium" data-category="decants">Decants</button>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Perfumes Tab -->
+            <div id="perfumes" class="tab-panel active">
+                <h3 class="text-2xl font-semibold mb-6 text-center">Tipos de Perfumes</h3>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                    <!-- Arabes -->
+                    <div class="category-section">
+                        <h4 class="text-xl font-semibold mb-4 text-center border-b pb-2">Árabes</h4>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="perfume-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openModal('Árabe 1', 'Un perfume intenso con notas de oud, ámbar y especias orientales.', 'arabes')">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/caa3e255-bfb6-43f0-b467-1c7ba4ea3d72.png" alt="Perfume árabe en frasco dorado con detalles geométricos" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h5 class="font-bold text-lg">Árabe 1</h5>
+                                    <p class="text-gray-600 text-sm">$120.00</p>
+                                </div>
+                            </div>
+                            
+                            <div class="perfume-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openModal('Árabe 2', 'Fusión de rosas turcas con sándalo y un toque de azafrán.', 'arabes')">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/87dfccdd-c487-486f-9ed8-d2416f1838b4.png" alt="Frasco de perfume árabe azul con patrones ornamentales dorados" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h5 class="font-bold text-lg">Árabe 2</h5>
+                                    <p class="text-gray-600 text-sm">$135.00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- De Autor -->
+                    <div class="category-section">
+                        <h4 class="text-xl font-semibold mb-4 text-center border-b pb-2">De Autor</h4>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="perfume-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openModal('Autor 1', 'Creación exclusiva con notas de bergamota, jazmín y vainilla.', 'autor')">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/efaf1a03-74be-4d11-b812-fb1b3ed0b3fc.png" alt="Frasco de diseño minimalista en cristal con tapa negra" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h5 class="font-bold text-lg">Autor 1</h5>
+                                    <p class="text-gray-600 text-sm">$180.00</p>
+                                </div>
+                            </div>
+                            
+                            <div class="perfume-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openModal('Autor 2', 'Firma del perfumista con acordes de pimienta rosa y sándalo.', 'autor')">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5415b494-4640-407a-af57-7744184f15ad.png" alt="Perfume de autor en frasco rectangular con detalles metálicos" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h5 class="font-bold text-lg">Autor 2</h5>
+                                    <p class="text-gray-600 text-sm">$200.00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nicho -->
+                    <div class="category-section">
+                        <h4 class="text-xl font-semibold mb-4 text-center border-b pb-2">Nicho</h4>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="perfume-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openModal('Nicho 1', 'Edición limitada con notas de iris, cuero y haba tonka.', 'nicho')">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/9b274b67-75b0-43b3-89ed-159c5b1fb50a.png" alt="Frasco de perfume de nicho con diseño artístico abstracto" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h5 class="font-bold text-lg">Nicho 1</h5>
+                                    <p class="text-gray-600 text-sm">$250.00</p>
+                                </div>
+                            </div>
+                            
+                            <div class="perfume-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openModal('Nicho 2', 'Composición olfativa innovadora con acentos metálicos.', 'nicho')">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/38bd5c81-c34b-4709-99b8-a6413b95baf2.png" alt="Frasco curvilíneo de perfume de nicho en tonos plateados" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h5 class="font-bold text-lg">Nicho 2</h5>
+                                    <p class="text-gray-600 text-sm">$280.00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Decants Tab -->
+            <div id="decants" class="tab-panel hidden">
+                <h3 class="text-2xl font-semibold mb-6 text-center">Decants Disponibles</h3>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                    <!-- Arabes Decants -->
+                    <div class="category-section">
+                        <h4 class="text-xl font-semibold mb-4 text-center border-b pb-2">Árabes</h4>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="perfume-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openModal('Decant Árabe 1', 'Versión en decant del perfume árabe con notas intensas.', 'arabes-decants')">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/66b1ba00-7687-44b2-92f6-04a6f328bb95.png" alt="Decant de perfume árabe en frasco de vidrio pequeño" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h5 class="font-bold text-lg">Decant Árabe 1</h5>
+                                    <p class="text-gray-600 text-sm">$45.00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- De Autor Decants -->
+                    <div class="category-section">
+                        <h4 class="text-xl font-semibold mb-4 text-center border-b pb-2">De Autor</h4>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="perfume-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openModal('Decant Autor 1', 'Decant del perfume de autor para probar antes de comprar.', 'autor-decants')">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/30f8f1d6-c931-4708-b654-f78ae89b7870.png" alt="Frasquitos de perfume de autor alineados en estante" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h5 class="font-bold text-lg">Decant Autor 1</h5>
+                                    <p class="text-gray-600 text-sm">$50.00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nicho Decants -->
+                    <div class="category-section">
+                        <h4 class="text-xl font-semibold mb-4 text-center border-b pb-2">Nicho</h4>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="perfume-card bg-white rounded-lg overflow-hidden cursor-pointer" onclick="openModal('Decant Nicho 1', 'Edición especial en decant de la fragancia de nicho.', 'nicho-decants')">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0bf72123-6e20-48e7-b29a-87f0d2b40a02.png" alt="Decant de perfume de nicho con etiqueta minimalista" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h5 class="font-bold text-lg">Decant Nicho 1</h5>
+                                    <p class="text-gray-600 text-sm">$55.00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-12 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Contacto</h3>
+                    <p class="mb-2">WhatsApp: +1234567890</p>
+                    <p>Email: contacto@tuperfumeria.com</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Redes Sociales</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-yellow-300">Instagram</a>
+                        <a href="#" class="hover:text-yellow-300">Facebook</a>
+                        <a href="#" class="hover:text-yellow-300">TikTok</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Newsletter</h3>
+                    <form class="flex">
+                        <input type="email" placeholder="Tu email" class="px-4 py-2 rounded-l text-gray-800 w-full">
+                        <button type="submit" class="bg-yellow-500 text-gray-800 px-4 py-2 rounded-r font-medium">Suscribir</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p>&copy; 2023 TuPerfumería. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <div class="relative p-6">
+                <button class="absolute top-4 right-4 text-2xl font-bold text-gray-500 hover:text-gray-700" onclick="closeModal()">&times;</button>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="gallery-container">
+                        <img id="main-image" src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3608ca6f-f98f-48aa-ba29-98c492f14344.png" alt="Imagen principal del perfume" class="w-full rounded-lg">
+                        
+                        <div class="thumbnail-grid grid grid-cols-4 gap-2 mt-4">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/40b77c0b-0856-46d7-b470-7f4089446000.png" alt="Frente del frasco de perfume" class="gallery-thumbnail rounded cursor-pointer" onclick="changeImage(this)">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/2616df53-23b6-43a8-94d3-352a82356b11.png" alt="Detalle del diseño del frasco" class="gallery-thumbnail rounded cursor-pointer" onclick="changeImage(this)">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/9b7fe493-8c01-4b15-a90b-c65c79a59586.png" alt="Caja del perfume sobre fondo blanco" class="gallery-thumbnail rounded cursor-pointer" onclick="changeImage(this)">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/edd21cbc-50e6-4ff9-9610-54dea112acbb.png" alt="Perfume en uso siendo aplicado" class="gallery-thumbnail rounded cursor-pointer" onclick="changeImage(this)">
+                        </div>
+                    </div>
+                    
+                    <div class="product-info">
+                        <h3 id="modal-title" class="text-3xl font-bold mb-2"></h3>
+                        <span id="modal-category" class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mb-4"></span>
+                        
+                        <p id="modal-description" class="text-gray-700 mb-6"></p>
+                        
+                        <h4 class="font-bold mb-2">Notas Olfativas:</h4>
+                        <ul class="mb-6">
+                            <li class="flex items-center mb-1">
+                                <span class="block w-4 h-4 bg-yellow-500 rounded-full mr-2"></span>
+                                Superiores: Bergamota, mandarina, pimienta rosa
+                            </li>
+                            <li class="flex items-center mb-1">
+                                <span class="block w-4 h-4 bg-pink-400 rounded-full mr-2"></span>
+                                Medias: Rosa, jazmín, lirio
+                            </li>
+                            <li class="flex items-center mb-1">
+                                <span class="block w-4 h-4 bg-amber-800 rounded-full mr-2"></span>
+                                Base: Vainilla, sándalo, ámbar
+                            </li>
+                        </ul>
+                        
+                        <div class="flex flex-wrap mb-6">
+                            <div class="w-full sm:w-1/2 pr-2 mb-2 sm:mb-0">
+                                <h4 class="font-bold">Duración:</h4>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1">
+                                    <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 90%"></div>
+                                </div>
+                                <span class="text-sm">8-10 horas</span>
+                            </div>
+                            
+                            <div class="w-full sm:w-1/2 pl-2">
+                                <h4 class="font-bold">Proyección:</h4>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1">
+                                    <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 70%"></div>
+                                </div>
+                                <span class="text-sm">Moderada-Alta</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-4">
+                            <span class="text-2xl font-bold mr-4">$150.00</span>
+                            <div class="flex items-center bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Disponible
+                            </div>
+                        </div>
+                        
+                        <button class="bg-gray-800 text-white px-6 py-3 rounded font-medium hover:bg-gray-700 transition w-full mb-4">
+                            Comprar ahora
+                        </button>
+                        
+                        <button class="bg-yellow-500 text-gray-800 px-6 py-3 rounded font-medium hover:bg-yellow-400 transition w-full">
+                            Añadir al carrito
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and panels
+                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Show corresponding panel
+                const category = tab.dataset.category;
+                document.getElementById(category).classList.remove('hidden');
+            });
+        });
+        
+        // Modal functionality
+        function openModal(title, description, category) {
+            const modal = document.getElementById('modal');
+            modal.classList.add('active');
+            
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-description').textContent = description;
+            document.getElementById('modal-category').textContent = category;
+            
+            // Change main image based on product
+            const mainImage = document.getElementById('main-image');
+            if (category.includes('arabes')) {
+                mainImage.src = 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f44cb8a4-33d8-4bc3-8e01-29d312f9a91c.png';
+                mainImage.alt = `Perfume árabe ${title} mostrando detalles de diseño`;
+            } else if (category.includes('autor')) {
+                mainImage.src = 'https://placehold.co/800x800';
+                mainImage.alt = `Perfume de autor ${title} en exhibición`;
+            } else {
+                mainImage.src = 'https://placehold.co/800x800';
+                mainImage.alt = `Perfume de nicho ${title} con diseño distintivo`;
+            }
+            
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function changeImage(element) {
+            document.getElementById('main-image').src = element.src;
+            document.getElementById('main-image').alt = element.alt;
+        }
+        
+        // Close modal when clicking outside content
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('modal')) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
+```
