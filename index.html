@@ -41,6 +41,16 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 18px rgba(0, 0, 0, 0.11);
         }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .perfume-card.clicked {
+            animation: pop 0.3s ease;
+        }
         
         .modal-overlay {
             position: fixed;
@@ -114,9 +124,15 @@
             padding: 20px;
             overflow-y: auto;
         }
-        
+
         .cart-overlay.active {
             transform: translateX(0);
+            animation: cartSlideIn 0.3s ease;
+        }
+
+        @keyframes cartSlideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
         }
         
         .cart-item {
@@ -132,6 +148,32 @@
             object-fit: cover;
             margin-right: 15px;
         }
+
+        /* Estilos para el comparador */
+        .compare-overlay {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: 101;
+            max-height: 80%;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .compare-overlay.active {
+            transform: translateY(0);
+            animation: compareSlideUp 0.3s ease;
+        }
+
+        @keyframes compareSlideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -142,6 +184,13 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
             <span id="cart-count" class="absolute -top-2 -right-2 bg-yellow-500 text-gray-800 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">0</span>
+        </button>
+    </div>
+
+    <!-- Botón del comparador flotante -->
+    <div id="compare-btn-container" class="hidden fixed bottom-8 left-8 z-50">
+        <button id="compare-btn" onclick="toggleCompare()" class="bg-purple-600 text-white p-4 rounded-full shadow-lg hover:bg-purple-500 transition">
+            Comparar (0)
         </button>
     </div>
 
@@ -169,6 +218,15 @@
                 Finalizar Compra
             </button>
         </div>
+    </div>
+
+    <!-- Comparador de perfumes -->
+    <div class="compare-overlay" id="compare-overlay">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold">Comparar perfumes</h3>
+            <button onclick="toggleCompare()" class="text-gray-500 hover:text-gray-700">&times;</button>
+        </div>
+        <div id="compare-items" class="flex space-x-4 overflow-x-auto"></div>
     </div>
 
     <header class="hero py-20 mb-12">
@@ -623,15 +681,71 @@
         function createProductCard(p) {
             const card = document.createElement("div");
             card.className = "perfume-card bg-white rounded-lg overflow-hidden cursor-pointer";
-            card.onclick = () => openModalProducto(p);
             card.innerHTML = `
                 <img src="${p.imagenes[0]}" alt="${p.nombre}" class="w-full h-48 object-cover">
                 <div class="p-4">
                     <h5 class="font-bold text-lg">${p.nombre}</h5>
                     <p class="text-gray-600 text-sm">$${p.precio.toLocaleString('es-AR')}</p>
+                    <button class="compare-button mt-2 text-sm text-purple-600 hover:underline">Comparar</button>
                 </div>
             `;
+            card.addEventListener('click', () => {
+                card.classList.add('clicked');
+                setTimeout(() => card.classList.remove('clicked'), 300);
+                openModalProducto(p);
+            });
+            card.querySelector('.compare-button').addEventListener('click', (e) => {
+                e.stopPropagation();
+                addToCompare(p);
+            });
             return card;
+        }
+
+        const compareList = [];
+
+        function addToCompare(prod) {
+            if (compareList.some(p => p.nombre === prod.nombre)) return;
+            compareList.push(prod);
+            updateCompareButton();
+            renderCompare();
+        }
+
+        function removeFromCompare(index) {
+            compareList.splice(index, 1);
+            updateCompareButton();
+            renderCompare();
+        }
+
+        function updateCompareButton() {
+            const container = document.getElementById('compare-btn-container');
+            const btn = document.getElementById('compare-btn');
+            if (btn) btn.textContent = `Comparar (${compareList.length})`;
+            if (container) {
+                if (compareList.length >= 2) {
+                    container.classList.remove('hidden');
+                } else {
+                    container.classList.add('hidden');
+                }
+            }
+        }
+
+        function renderCompare() {
+            const container = document.getElementById('compare-items');
+            if (!container) return;
+            container.innerHTML = compareList.map((p,i)=>
+                `<div class="border rounded p-3 w-64 relative">
+                    <button class="absolute top-1 right-1 text-red-500" onclick="removeFromCompare(${i})">&times;</button>
+                    <h4 class="font-semibold mb-2">${p.nombre}</h4>
+                    <p class="text-sm mb-2">Precio: $${p.precio.toLocaleString('es-AR')}</p>
+                    <p class="text-xs"><strong>Salida:</strong> ${(p.notas?.top || []).join(', ')}</p>
+                    <p class="text-xs"><strong>Corazón:</strong> ${(p.notas?.middle || []).join(', ')}</p>
+                    <p class="text-xs"><strong>Base:</strong> ${(p.notas?.base || []).join(', ')}</p>
+                </div>`
+            ).join('');
+        }
+
+        function toggleCompare() {
+            document.getElementById('compare-overlay').classList.toggle('active');
         }
 
         // Tabs
@@ -830,6 +944,7 @@
         // Inicialización
         document.addEventListener('DOMContentLoaded', () => {
             renderProductos();
+            updateCompareButton();
         });
     </script>
 </body>
