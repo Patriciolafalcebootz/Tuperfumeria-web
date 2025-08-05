@@ -68,16 +68,16 @@ app.post('/api/stock', (req, res) => {
 });
 
 app.post('/api/orders', (req, res) => {
-  const order = req.body;
-  if (!order) {
-    return res.status(400).json({ error: 'order required' });
+  const { phone, perfume, quantity } = req.body || {};
+  if (!phone || !perfume || typeof quantity !== 'number') {
+    return res.status(400).json({ error: 'phone, perfume and quantity required' });
   }
 
   runExclusive(async () => {
     const wb = readWorkbook();
     let ws = wb.Sheets[ORDERS_SHEET];
     const data = ws ? XLSX.utils.sheet_to_json(ws) : [];
-    data.push({ ...order, timestamp: new Date().toISOString() });
+    data.push({ Telefono: phone, Perfume: perfume, Cantidad: quantity, timestamp: new Date().toISOString() });
     ws = XLSX.utils.json_to_sheet(data);
     wb.Sheets[ORDERS_SHEET] = ws;
     if (!wb.SheetNames.includes(ORDERS_SHEET)) {
@@ -93,8 +93,10 @@ app.post('/api/orders', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
 
 module.exports = app;
