@@ -267,11 +267,11 @@
                             </div>
                         </div>
                         
-                        <button class="bg-gray-800 text-white px-6 py-3 rounded font-medium hover:bg-gray-700 transition w-full mb-4" onclick="buyNow()">
+                        <button id="buy-now-btn" class="bg-gray-800 text-white px-6 py-3 rounded font-medium hover:bg-gray-700 transition w-full mb-4" onclick="buyNow()">
                             Comprar ahora
                         </button>
-                        
-                        <button class="bg-yellow-500 text-gray-800 px-6 py-3 rounded font-medium hover:bg-yellow-400 transition w-full" onclick="addToCart()">
+
+                        <button id="add-to-cart-btn" class="bg-yellow-500 text-gray-800 px-6 py-3 rounded font-medium hover:bg-yellow-400 transition w-full" onclick="addToCart()">
                             Añadir al carrito
                         </button>
                     </div>
@@ -389,6 +389,17 @@
                 stockElement.className = 'flex items-center bg-red-100 text-red-800 text-xs px-2 py-1 rounded';
             }
 
+            const buyBtn = document.getElementById('buy-now-btn');
+            const cartBtn = document.getElementById('add-to-cart-btn');
+            buyBtn.disabled = !prod.stock;
+            cartBtn.disabled = !prod.stock;
+            buyBtn.classList.toggle('opacity-50', !prod.stock);
+            buyBtn.classList.toggle('cursor-not-allowed', !prod.stock);
+            cartBtn.classList.toggle('opacity-50', !prod.stock);
+            cartBtn.classList.toggle('cursor-not-allowed', !prod.stock);
+            buyBtn.classList.toggle('hover:bg-gray-700', prod.stock);
+            cartBtn.classList.toggle('hover:bg-yellow-400', prod.stock);
+
             // Miniaturas
             const thumbs = document.getElementById('thumbnails');
             thumbs.innerHTML = '';
@@ -422,7 +433,11 @@
 
         function addToCart() {
             if (!currentProduct) return;
-            
+            if (!currentProduct.stock) {
+                showNotification('Producto sin stock');
+                return;
+            }
+
             const product = {
                 name: currentProduct.nombre,
                 price: currentProduct.precio,
@@ -507,7 +522,11 @@
 
         function buyNow() {
             if (!currentProduct) return;
-            
+            if (!currentProduct.stock) {
+                showNotification('Producto sin stock');
+                return;
+            }
+
             const whatsappNumber = "+5491138722792";
             const message = `Hola, me interesa comprar: ${currentProduct.nombre} - $${currentProduct.precio.toLocaleString('es-AR')}`;
             window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
