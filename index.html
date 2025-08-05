@@ -160,7 +160,7 @@
             transform: translateY(100%);
             transition: transform 0.3s ease;
             z-index: 101;
-            max-height: 70%;
+
             overflow-y: auto;
             padding: 20px;
         }
@@ -188,7 +188,7 @@
     </div>
 
     <!-- Botón del comparador flotante -->
-    <div class="fixed bottom-20 right-8 z-50">
+
         <button id="compare-btn" onclick="toggleCompare()" class="bg-purple-600 text-white p-4 rounded-full shadow-lg hover:bg-purple-500 transition">
             Comparar (0)
         </button>
@@ -719,8 +719,7 @@
         }
 
         function updateCompareButton() {
-            const btn = document.getElementById('compare-btn');
-            if (btn) btn.textContent = `Comparar (${compareList.length})`;
+
         }
 
         function renderCompare() {
