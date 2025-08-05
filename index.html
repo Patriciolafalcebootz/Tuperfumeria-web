@@ -946,7 +946,16 @@
         });
 
         // Inicialización
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const stockData = await getStockLevels();
+                stockData.forEach(item => {
+                    const prod = productos.find(p => p.nombre === item.Producto);
+                    if (prod) prod.stock = item.Cantidad > 0;
+                });
+            } catch (err) {
+                console.error('Error fetching stock', err);
+            }
             renderProductos();
             updateCompareButton();
         });
