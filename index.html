@@ -250,7 +250,8 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div class="gallery-container">
                         <img id="main-image" src="" alt="Imagen principal del perfume" class="w-full rounded-lg">
-                        
+                        <div id="notes-container" class="hidden p-4 bg-gray-50 rounded-lg mt-4"></div>
+
                         <div class="thumbnail-grid grid grid-cols-4 gap-2 mt-4" id="thumbnails"></div>
                     </div>
                     
@@ -284,34 +285,310 @@
     <script>
         // La constante productos incluye categorías "Árabes" y "Diseñador"; las decants se definen aparte
         const productos = [
-            { nombre: "Al Haramain Amber Oud Gold Unisex 120ML", imagenes: ["images/Amber oud gold.jpeg", "images/Amber oud gold2.jpeg"], categoria: "Árabes", precio: 85000, descripcion: "", stock: true },
-            { nombre: "Armaf Club de Nuit intense man EDT 100ML", imagenes: ["images/Club de nuit intense.jpeg"], categoria: "Árabes", precio: 48000, descripcion: "", stock: true },
-            { nombre: "Armaf Odyssey Mandarin Sky EDP MAS 100ML", imagenes: ["images/Mandarin sky.jpeg"], categoria: "Árabes", precio: 64000, descripcion: "", stock: true },
-            { nombre: "Lattafa Asad Bourbon EDP 100ML", imagenes: ["images/Yara bourbon.jpeg"], categoria: "Árabes", precio: 62000, descripcion: "", stock: true },
-            { nombre: "Lattafa ASAD YARA TOUS EDP MAS 100ML", imagenes: ["images/Yara naranja.jpeg"], categoria: "Árabes", precio: 35000, descripcion: "", stock: true },
-            { nombre: "Lattafa ASAD YARA CANDY EDP 100ML", imagenes: ["images/Yara candy.jpeg"], categoria: "Árabes", precio: 35000, descripcion: "", stock: true },
-            { nombre: "Lattafa Khamrah EDP unisex 100ML", imagenes: ["images/Khamrah.jpeg"], categoria: "Árabes", precio: 52000, descripcion: "", stock: true },
-            { nombre: "BADEE AL OUD OUD NOBLE BLUSH EDP 100ML", imagenes: ["images/Noble blush.jpeg"], categoria: "Árabes", precio: 40000, descripcion: "", stock: true },
-            { nombre: "BADEE AL OUD FOR GLORY EDP 100ML", imagenes: ["images/Oud for glory.jpeg"], categoria: "Árabes", precio: 48000, descripcion: "", stock: true },
-            { nombre: "BADEE AL OUD AMETHYST EDP 100ML", imagenes: ["images/Amatyst.jpeg"], categoria: "Árabes", precio: 48000, descripcion: "", stock: true },
-            { nombre: "ASAD ZANZIBAR EDP 100ML", imagenes: ["images/Zanzibar.jpeg"], categoria: "Árabes", precio: 34000, descripcion: "", stock: true },
-            { nombre: "BADEE AL OUD HONOR & GLORY EDP 100ML", imagenes: ["images/Honor and glory.jpeg"], categoria: "Árabes", precio: 45000, descripcion: "", stock: true },
+            {
+                nombre: "Al Haramain Amber Oud Gold Unisex 120ML",
+                imagenes: ["images/Amber oud gold.jpeg", "images/Amber oud gold2.jpeg"],
+                categoria: "Árabes",
+                precio: 85000,
+                descripcion: "",
+                stock: true,
+                notas: {
+                    top: ["Bergamota", "Notas verdes"],
+                    middle: ["Melón", "Piña", "Ámbar"],
+                    base: ["Almizcle", "Vainilla", "Notas amaderadas"]
+                }
+            },
+            {
+                nombre: "Armaf Club de Nuit intense man EDT 100ML",
+                imagenes: ["images/Club de nuit intense.jpeg"],
+                categoria: "Árabes",
+                precio: 48000,
+                descripcion: "",
+                stock: true,
+                notas: {
+                    top: ["Limón", "Piña", "Bergamota", "Grosella negra", "Manzana"],
+                    middle: ["Rosa", "Jazmín", "Abedul"],
+                    base: ["Vainilla", "Pachulí", "Ámbar gris", "Almizcle"]
+                }
+            },
+            {
+                nombre: "Armaf Odyssey Mandarin Sky EDP MAS 100ML",
+                imagenes: ["images/Mandarin sky.jpeg"],
+                categoria: "Árabes",
+                precio: 64000,
+                descripcion: "",
+                stock: true,
+                notas: {
+                    top: ["Mandarina", "Pomelo"],
+                    middle: ["Cardamomo", "Especias", "Ámbar"],
+                    base: ["Vainilla", "Almizcle", "Pachulí"]
+                }
+            },
+            {
+                nombre: "Lattafa Asad Bourbon EDP 100ML",
+                imagenes: ["images/Yara bourbon.jpeg"],
+                categoria: "Árabes",
+                precio: 62000,
+                descripcion: "",
+                stock: true,
+                notas: {
+                    top: ["Pimienta negra", "Piña", "Tabaco"],
+                    middle: ["Café", "Vainilla", "Pachulí"],
+                    base: ["Ámbar", "Benjuí", "Labdanum"]
+                }
+            },
+            {
+                nombre: "Lattafa ASAD YARA TOUS EDP MAS 100ML",
+                imagenes: ["images/Yara naranja.jpeg"],
+                categoria: "Árabes",
+                precio: 35000,
+                descripcion: "",
+                stock: true,
+                notas: {
+                    top: ["Mandarina", "Naranja"],
+                    middle: ["Frutas tropicales", "Jazmín"],
+                    base: ["Vainilla", "Almizcle"]
+                }
+            },
+            {
+                nombre: "Lattafa ASAD YARA CANDY EDP 100ML",
+                imagenes: ["images/Yara candy.jpeg"],
+                categoria: "Árabes",
+                precio: 35000,
+                descripcion: "",
+                stock: true,
+                notas: {
+                    top: ["Malvavisco", "Bergamota", "Flores blancas"],
+                    middle: ["Caramelo", "Durazno", "Azúcar"],
+                    base: ["Almizcle", "Sándalo", "Vainilla"]
+                }
+            },
+            {
+                nombre: "Lattafa Khamrah EDP unisex 100ML",
+                imagenes: ["images/Khamrah.jpeg"],
+                categoria: "Árabes",
+                precio: 52000,
+                descripcion: "",
+                stock: true,
+                notas: {
+                    top: ["Canela", "Nuez moscada", "Bergamota"],
+                    middle: ["Dátiles", "Praliné", "Nardos"],
+                    base: ["Vainilla", "Haba tonka", "Ámbar", "Oud"]
+                }
+            },
+            {
+                nombre: "BADEE AL OUD OUD NOBLE BLUSH EDP 100ML",
+                imagenes: ["images/Noble blush.jpeg"],
+                categoria: "Árabes",
+                precio: 40000,
+                descripcion: "",
+                stock: true,
+                notas: {
+                    top: ["Azafrán", "Bergamota"],
+                    middle: ["Rosa", "Madera de ámbar"],
+                    base: ["Oud", "Almizcle", "Sándalo"]
+                }
+            },
+            {
+                nombre: "BADEE AL OUD FOR GLORY EDP 100ML",
+                imagenes: ["images/Oud for glory.jpeg"],
+                categoria: "Árabes",
+                precio: 48000,
+                descripcion: "",
+                stock: true,
+                notas: {
+                    top: ["Azafrán", "Lavanda", "Nuez moscada"],
+                    middle: ["Oud", "Pachulí", "Rosa"],
+                    base: ["Oud", "Pachulí", "Almizcle", "Ámbar"]
+                }
+            },
+            {
+                nombre: "BADEE AL OUD AMETHYST EDP 100ML",
+                imagenes: ["images/Amatyst.jpeg"],
+                categoria: "Árabes",
+                precio: 48000,
+                descripcion: "",
+                stock: true,
+                notas: {
+                    top: ["Rosa", "Bergamota"],
+                    middle: ["Rosa turca", "Rosa búlgara", "Jazmín"],
+                    base: ["Ámbar", "Vainilla", "Oud"]
+                }
+            },
+            {
+                nombre: "ASAD ZANZIBAR EDP 100ML",
+                imagenes: ["images/Zanzibar.jpeg"],
+                categoria: "Árabes",
+                precio: 34000,
+                descripcion: "",
+                stock: true,
+                notas: {
+                    top: ["Mandarina", "Cardamomo"],
+                    middle: ["Lavanda", "Geranio"],
+                    base: ["Cedro", "Vetiver", "Pachulí"]
+                }
+            },
+            {
+                nombre: "BADEE AL OUD HONOR & GLORY EDP 100ML",
+                imagenes: ["images/Honor and glory.jpeg"],
+                categoria: "Árabes",
+                precio: 45000,
+                descripcion: "",
+                stock: true,
+                notas: {
+                    top: ["Ananá", "Pomelo"],
+                    middle: ["Lavanda", "Pachulí"],
+                    base: ["Ámbar", "Madera de guayaco", "Almizcle"]
+                }
+            },
             // Diseñador
-            { nombre: "Azzaro The Most Wanted EDP Intense [SIN STOCK]", imagenes: ["images/azzaro most wanted.jpeg"], categoria: "Diseñador", precio: 11111, descripcion: "", stock: false },
-            { nombre: "Carolina Herrera 212 VIP Rose Elixir [SIN STOCK]", imagenes: ["images/212 vip rose.jpeg"], categoria: "Diseñador", precio: 11111, descripcion: "", stock: false },
-            { nombre: "Carolina Herrera Good Girl [SIN STOCK]", imagenes: ["images/good girl.jpeg"], categoria: "Diseñador", precio: 1111111, descripcion: "", stock: false },
-            { nombre: "Dior Sauvage EDP [SIN STOCK]", imagenes: ["images/sauvage dior.jpeg"], categoria: "Diseñador", precio: 1111111, descripcion: "", stock: false },
-            { nombre: "Jean Paul Gaultier Le Male Elixir [SIN STOCK]", imagenes: ["images/jean paul.jpeg"], categoria: "Diseñador", precio: 11111, descripcion: "", stock: false },
-            { nombre: "Valentino Donna Born in Roma [SIN STOCK]", imagenes: ["images/valentino donna.jpeg"], categoria: "Diseñador", precio: 11111111, descripcion: "", stock: false },
-            { nombre: "Versace Dylan Blue Pour Homme [SIN STOCK]", imagenes: ["images/dylan blue.jpeg"], categoria: "Diseñador", precio: 111111, descripcion: "", stock: false }
+            {
+                nombre: "Azzaro The Most Wanted EDP Intense [SIN STOCK]",
+                imagenes: ["images/azzaro most wanted.jpeg"],
+                categoria: "Diseñador",
+                precio: 11111,
+                descripcion: "",
+                stock: false,
+                notas: {
+                    top: ["Cardamomo"],
+                    middle: ["Toffee"],
+                    base: ["Ámbar madera", "Vainilla bourbon"]
+                }
+            },
+            {
+                nombre: "Carolina Herrera 212 VIP Rose Elixir [SIN STOCK]",
+                imagenes: ["images/212 vip rose.jpeg"],
+                categoria: "Diseñador",
+                precio: 11111,
+                descripcion: "",
+                stock: false,
+                notas: {
+                    top: ["Grosella roja", "Mandarina", "Lichi"],
+                    middle: ["Rosa", "Flor de durazno", "Peonía"],
+                    base: ["Vainilla", "Pachulí", "Almizcle"]
+                }
+            },
+            {
+                nombre: "Carolina Herrera Good Girl [SIN STOCK]",
+                imagenes: ["images/good girl.jpeg"],
+                categoria: "Diseñador",
+                precio: 1111111,
+                descripcion: "",
+                stock: false,
+                notas: {
+                    top: ["Almendra", "Café", "Bergamota"],
+                    middle: ["Jazmín sambac", "Nardos", "Raíz de lirio"],
+                    base: ["Haba tonka", "Cacao", "Vainilla"]
+                }
+            },
+            {
+                nombre: "Dior Sauvage EDP [SIN STOCK]",
+                imagenes: ["images/sauvage dior.jpeg"],
+                categoria: "Diseñador",
+                precio: 1111111,
+                descripcion: "",
+                stock: false,
+                notas: {
+                    top: ["Bergamota", "Pimienta"],
+                    middle: ["Lavanda", "Pimienta de Sichuan", "Anís estrellado", "Nuez moscada"],
+                    base: ["Ambroxan", "Vainilla", "Cedro"]
+                }
+            },
+            {
+                nombre: "Jean Paul Gaultier Le Male Elixir [SIN STOCK]",
+                imagenes: ["images/jean paul.jpeg"],
+                categoria: "Diseñador",
+                precio: 11111,
+                descripcion: "",
+                stock: false,
+                notas: {
+                    top: ["Menta", "Lavanda"],
+                    middle: ["Vainilla", "Benjuí"],
+                    base: ["Miel", "Haba tonka", "Tabaco"]
+                }
+            },
+            {
+                nombre: "Valentino Donna Born in Roma [SIN STOCK]",
+                imagenes: ["images/valentino donna.jpeg"],
+                categoria: "Diseñador",
+                precio: 11111111,
+                descripcion: "",
+                stock: false,
+                notas: {
+                    top: ["Grosella negra", "Pimienta rosa", "Bergamota"],
+                    middle: ["Jazmín", "Té de jazmín"],
+                    base: ["Vainilla bourbon", "Cashmeran", "Madera de guayaco"]
+                }
+            },
+            {
+                nombre: "Versace Dylan Blue Pour Homme [SIN STOCK]",
+                imagenes: ["images/dylan blue.jpeg"],
+                categoria: "Diseñador",
+                precio: 111111,
+                descripcion: "",
+                stock: false,
+                notas: {
+                    top: ["Bergamota", "Pomelo", "Hoja de higuera"],
+                    middle: ["Hoja de violeta", "Papiro", "Pachulí", "Pimienta negra"],
+                    base: ["Ambrox", "Almizcle", "Incienso", "Haba tonka"]
+                }
+            }
         ];
 
         // Decants
         const decants = [
-            { nombre: "Al Haramain Amber Oud Gold - Decant 10ml [SIN STOCK]", imagenes: ["https://puntotienda.com.py/wp-content/uploads/2023/02/s-l1600.jpg"], categoria: "Decant Árabe", precio: 111111, descripcion: "", stock: false },
-            { nombre: "Dior Sauvage EDP - Decant 5ml [SIN STOCK]", imagenes: ["https://puntotienda.com.py/wp-content/uploads/2023/02/s-l1600.jpg"], categoria: "Decant Diseñador", precio: 1111111, descripcion: "", stock: false },
-            { nombre: "Jean Paul Gaultier Le Male Elixir - Decant 10ml [SIN STOCK]", imagenes: ["https://puntotienda.com.py/wp-content/uploads/2023/02/s-l1600.jpg"], categoria: "Decant Diseñador", precio: 1111111, descripcion: "", stock: false },
-            { nombre: "Lattafa Khamrah - Decant 5ml [SIN STOCK]", imagenes: ["https://puntotienda.com.py/wp-content/uploads/2023/02/s-l1600.jpg"], categoria: "Decant Árabe", precio: 111111, descripcion: "", stock: false }
+            {
+                nombre: "Al Haramain Amber Oud Gold - Decant 10ml [SIN STOCK]",
+                imagenes: ["https://puntotienda.com.py/wp-content/uploads/2023/02/s-l1600.jpg"],
+                categoria: "Decant Árabe",
+                precio: 111111,
+                descripcion: "",
+                stock: false,
+                notas: {
+                    top: ["Bergamota", "Notas verdes"],
+                    middle: ["Melón", "Piña", "Ámbar"],
+                    base: ["Almizcle", "Vainilla", "Notas amaderadas"]
+                }
+            },
+            {
+                nombre: "Dior Sauvage EDP - Decant 5ml [SIN STOCK]",
+                imagenes: ["https://puntotienda.com.py/wp-content/uploads/2023/02/s-l1600.jpg"],
+                categoria: "Decant Diseñador",
+                precio: 1111111,
+                descripcion: "",
+                stock: false,
+                notas: {
+                    top: ["Bergamota", "Pimienta"],
+                    middle: ["Lavanda", "Pimienta de Sichuan", "Anís estrellado", "Nuez moscada"],
+                    base: ["Ambroxan", "Vainilla", "Cedro"]
+                }
+            },
+            {
+                nombre: "Jean Paul Gaultier Le Male Elixir - Decant 10ml [SIN STOCK]",
+                imagenes: ["https://puntotienda.com.py/wp-content/uploads/2023/02/s-l1600.jpg"],
+                categoria: "Decant Diseñador",
+                precio: 1111111,
+                descripcion: "",
+                stock: false,
+                notas: {
+                    top: ["Menta", "Lavanda"],
+                    middle: ["Vainilla", "Benjuí"],
+                    base: ["Miel", "Haba tonka", "Tabaco"]
+                }
+            },
+            {
+                nombre: "Lattafa Khamrah - Decant 5ml [SIN STOCK]",
+                imagenes: ["https://puntotienda.com.py/wp-content/uploads/2023/02/s-l1600.jpg"],
+                categoria: "Decant Árabe",
+                precio: 111111,
+                descripcion: "",
+                stock: false,
+                notas: {
+                    top: ["Canela", "Nuez moscada", "Bergamota"],
+                    middle: ["Dátiles", "Praliné", "Nardos"],
+                    base: ["Vainilla", "Haba tonka", "Ámbar", "Oud"]
+                }
+            }
         ];
 
         // Carrito
@@ -375,9 +652,8 @@
             document.getElementById('modal-category').textContent = prod.categoria;
             document.getElementById('modal-description').textContent = prod.descripcion || '';
             document.getElementById('modal-price').textContent = `$${prod.precio.toLocaleString('es-AR')}`;
-            document.getElementById('main-image').src = prod.imagenes[0];
-            document.getElementById('main-image').alt = prod.nombre;
-            
+            showImage(prod.imagenes[0], prod.nombre);
+
             const stockElement = document.getElementById('modal-stock');
             if (prod.stock) {
                 stockElement.style.display = 'flex';
@@ -398,15 +674,89 @@
                 thumb.alt = prod.nombre + ' miniatura ' + (i+1);
                 thumb.className = "gallery-thumbnail rounded cursor-pointer" + (i===0?" selected":"");
                 thumb.onclick = () => {
-                    document.getElementById('main-image').src = img;
                     document.querySelectorAll('#thumbnails .gallery-thumbnail').forEach(t=>t.classList.remove('selected'));
                     thumb.classList.add('selected');
+                    showImage(img, prod.nombre);
                 };
                 thumbs.appendChild(thumb);
             });
 
+            // Miniatura de notas
+            if (prod.notas) {
+                const notesThumb = document.createElement('img');
+                notesThumb.src = 'images/notes.svg';
+                notesThumb.alt = 'Ver notas de ' + prod.nombre;
+                notesThumb.className = 'gallery-thumbnail rounded cursor-pointer';
+                notesThumb.onclick = () => {
+                    document.querySelectorAll('#thumbnails .gallery-thumbnail').forEach(t=>t.classList.remove('selected'));
+                    notesThumb.classList.add('selected');
+                    showNotes(prod);
+                };
+                thumbs.appendChild(notesThumb);
+            }
+
             document.getElementById('modal').classList.add('active');
             document.body.style.overflow = 'hidden';
+        }
+
+        function showImage(img, alt) {
+            const mainImage = document.getElementById('main-image');
+            const notesContainer = document.getElementById('notes-container');
+            mainImage.src = img;
+            mainImage.alt = alt;
+            mainImage.classList.remove('hidden');
+            notesContainer.classList.add('hidden');
+            notesContainer.innerHTML = '';
+        }
+
+        function showNotes(prod) {
+            const mainImage = document.getElementById('main-image');
+            const notesContainer = document.getElementById('notes-container');
+            mainImage.classList.add('hidden');
+            notesContainer.classList.remove('hidden');
+            notesContainer.innerHTML = '';
+
+            const sections = [
+                { titulo: 'Salida', notas: prod.notas?.top || [] },
+                { titulo: 'Corazón', notas: prod.notas?.middle || [] },
+                { titulo: 'Fondo', notas: prod.notas?.base || [] }
+            ];
+
+            sections.forEach(sec => {
+                if (sec.notas.length) {
+                    const h = document.createElement('h4');
+                    h.className = 'font-semibold mt-2';
+                    h.textContent = 'Notas de ' + sec.titulo;
+                    notesContainer.appendChild(h);
+
+                    const div = document.createElement('div');
+                    div.className = 'flex flex-wrap gap-2 mb-2';
+                    sec.notas.forEach(n => {
+                        const span = document.createElement('span');
+                        span.className = 'note-tag bg-gray-200 rounded-full px-2 py-1 text-sm cursor-pointer hover:bg-yellow-200';
+                        span.textContent = n;
+                        span.onclick = () => compareNote(n, prod.nombre);
+                        div.appendChild(span);
+                    });
+                    notesContainer.appendChild(div);
+                }
+            });
+
+            const compareDiv = document.createElement('div');
+            compareDiv.id = 'compare-list';
+            notesContainer.appendChild(compareDiv);
+        }
+
+        function compareNote(note, currentName) {
+            const compareDiv = document.getElementById('compare-list');
+            const others = [...productos, ...decants].filter(p => p.nombre !== currentName && p.notas && Object.values(p.notas).some(arr => arr.includes(note)));
+            if (!others.length) {
+                compareDiv.innerHTML = `<p class="mt-4 text-sm text-gray-600">Ningún otro perfume comparte la nota ${note}.</p>`;
+                return;
+            }
+            compareDiv.innerHTML = `<p class="mt-4 text-sm font-medium">Comparte esta nota con:</p>` +
+                '<ul class="list-disc list-inside text-sm text-gray-700">' +
+                others.map(o => `<li>${o.nombre}</li>`).join('') + '</ul>';
         }
 
         function closeModal() {
