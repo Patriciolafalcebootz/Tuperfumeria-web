@@ -69,7 +69,8 @@ app.post('/api/stock', (req, res) => {
 
 app.post('/api/orders', (req, res) => {
   const { phone, perfume, quantity } = req.body || {};
-  if (!phone || !perfume || typeof quantity !== 'number') {
+  const qty = Number(quantity);
+  if (!phone || !perfume || !Number.isInteger(qty)) {
     return res.status(400).json({ error: 'phone, perfume and quantity required' });
   }
 
@@ -77,7 +78,7 @@ app.post('/api/orders', (req, res) => {
     const wb = readWorkbook();
     let ws = wb.Sheets[ORDERS_SHEET];
     const data = ws ? XLSX.utils.sheet_to_json(ws) : [];
-    data.push({ Telefono: phone, Perfume: perfume, Cantidad: quantity, timestamp: new Date().toISOString() });
+    data.push({ Telefono: phone, Perfume: perfume, Cantidad: qty, timestamp: new Date().toISOString() });
     ws = XLSX.utils.json_to_sheet(data);
     wb.Sheets[ORDERS_SHEET] = ws;
     if (!wb.SheetNames.includes(ORDERS_SHEET)) {
