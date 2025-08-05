@@ -1,0 +1,16 @@
+{
+  "name": "tuperfumeria-web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cart.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
