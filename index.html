@@ -268,6 +268,17 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16" id="decantsGrid"></div>
             </div>
         </div>
+
+        <section class="my-12">
+            <h2 class="text-2xl font-bold mb-4 text-center">Realizar Pedido</h2>
+            <form id="order-form" class="max-w-md mx-auto grid gap-4">
+                <input type="tel" id="order-phone" class="border rounded p-2" placeholder="Número de teléfono" required>
+                <input type="text" id="order-perfume" class="border rounded p-2" placeholder="Perfume" required>
+                <input type="number" id="order-quantity" class="border rounded p-2" placeholder="Cantidad" min="1" required>
+                <button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700">Enviar Pedido</button>
+            </form>
+            <p id="order-message" class="text-center mt-2 text-sm"></p>
+        </section>
     </main>
 
     <footer class="bg-gray-800 text-white py-12 mt-12">
@@ -958,6 +969,24 @@
             }
             renderProductos();
             updateCompareButton();
+
+            const orderForm = document.getElementById('order-form');
+            if (orderForm) {
+                orderForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const phone = document.getElementById('order-phone').value;
+                    const perfume = document.getElementById('order-perfume').value;
+                    const quantity = parseInt(document.getElementById('order-quantity').value, 10);
+                    try {
+                        await submitOrder({ phone, perfume, quantity });
+                        document.getElementById('order-message').textContent = 'Pedido enviado correctamente';
+                        orderForm.reset();
+                    } catch (err) {
+                        console.error('Error submitting order', err);
+                        document.getElementById('order-message').textContent = 'Error al enviar el pedido';
+                    }
+                });
+            }
         });
     </script>
 </body>
