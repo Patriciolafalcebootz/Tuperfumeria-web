@@ -174,6 +174,17 @@
             from { transform: translateY(100%); }
             to { transform: translateY(0); }
         }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .marquee {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 10s linear infinite;
+        }
     </style>
 </head>
 <body>
@@ -196,8 +207,11 @@
 
     <!-- Navegación superior -->
     <nav class="bg-white shadow">
-        <div class="container mx-auto px-4 py-4 flex justify-between">
+        <div class="container mx-auto px-4 py-4 flex items-center">
             <a href="index.html" class="font-bold text-gray-800">Inicio</a>
+            <div class="flex-1 mx-4 overflow-hidden">
+                <p class="marquee bg-yellow-200 text-gray-800 px-2 rounded">No te olvides de seguirnos en Instagram</p>
+            </div>
             <a href="pedido.html" class="text-gray-600 hover:text-gray-800">Realizar Pedido</a>
         </div>
     </nav>
