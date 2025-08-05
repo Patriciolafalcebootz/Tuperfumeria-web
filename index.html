@@ -188,7 +188,7 @@
     </div>
 
     <!-- Botón del comparador flotante -->
-
+    <div id="compare-btn-container" class="fixed bottom-8 left-8 z-50 hidden">
         <button id="compare-btn" onclick="toggleCompare()" class="bg-purple-600 text-white p-4 rounded-full shadow-lg hover:bg-purple-500 transition">
             Comparar (0)
         </button>
@@ -719,7 +719,18 @@
         }
 
         function updateCompareButton() {
-
+            const btn = document.getElementById('compare-btn');
+            const container = document.getElementById('compare-btn-container');
+            if (!btn || !container) return;
+            const count = compareList.length;
+            btn.textContent = `Comparar (${count})`;
+            if (count > 0) {
+                container.classList.remove('hidden');
+            } else {
+                container.classList.add('hidden');
+                const overlay = document.getElementById('compare-overlay');
+                if (overlay) overlay.classList.remove('active');
+            }
         }
 
         function renderCompare() {
