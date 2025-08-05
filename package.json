@@ -7,10 +7,15 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^4.18.2",
+    "xlsx": "^0.18.5"
+  }
 }

@@ -67,10 +67,44 @@ function updateCart() {
   cartTotal.textContent = `$${total.toLocaleString('es-AR')}`;
 }
 
+async function getStockLevels() {
+  const res = await fetch('/api/stock');
+  if (!res.ok) throw new Error('Failed to fetch stock');
+  return res.json();
+}
+
+async function submitOrder(order) {
+  const res = await fetch('/api/orders', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(order)
+  });
+  if (!res.ok) throw new Error('Failed to submit order');
+  return res.json();
+}
+
+async function checkout() {
+  try {
+    await submitOrder({ items: cart });
+    await fetch('/api/stock', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: cart })
+    });
+    cart.length = 0;
+    updateCart();
+  } catch (err) {
+    console.error('Checkout failed', err);
+  }
+}
+
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { cart, addToCart, updateCart };
+  module.exports = { cart, addToCart, updateCart, getStockLevels, submitOrder, checkout };
 } else {
   window.cart = cart;
   window.addToCart = addToCart;
   window.updateCart = updateCart;
+  window.getStockLevels = getStockLevels;
+  window.submitOrder = submitOrder;
+  window.checkout = checkout;
 }
